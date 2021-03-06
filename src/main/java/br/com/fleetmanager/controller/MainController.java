@@ -14,7 +14,7 @@ public class MainController {
 
     @FXML
     void actionOpenCadastroVeiculos(ActionEvent event) throws IOException {
-        WindowController.openWindow(Constants.cCadVeiculoWindow);
+        WindowController.openWindow(Constants.cListGenericWindow);
     }
 
 }
