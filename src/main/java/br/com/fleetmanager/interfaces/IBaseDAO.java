@@ -5,9 +5,10 @@ import java.util.List;
 
 public interface IBaseDAO<T> {
 
-    public boolean Insert(T object);
-    public boolean Delete(T object);
-    public boolean Update(T object);
-    public List<T> ListAll() throws SQLException;
+    boolean Save(T Object);
+    boolean Delete(T object);
+    List<T> ListAll() throws SQLException;
 
+    boolean Insert(T Object);
+    boolean Update(T Object);
 }

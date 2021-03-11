@@ -11,5 +11,4 @@ public abstract class ABaseDAO implements IBaseDAO {
     public ABaseDAO(Connection pConnection) {
         this.connection = pConnection;
     }
-
 }
