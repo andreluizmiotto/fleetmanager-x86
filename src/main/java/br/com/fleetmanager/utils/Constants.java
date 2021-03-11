@@ -1,8 +1,9 @@
 package br.com.fleetmanager.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Constants {
 
-    public static final String cMainWindow = "mainWindow";
-    public static final String cListGenericWindow = "listVehicle";
-    public static final String cCadVeiculoWindow = "cadVehicle";
+
 }
