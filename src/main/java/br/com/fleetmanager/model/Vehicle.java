@@ -5,33 +5,43 @@ import br.com.fleetmanager.interfaces.IBaseModel;
 public class Vehicle implements IBaseModel {
 
     private int id;
-    private String placa;
-    private String descricao;
-    private int anoFabricacao;
+    private String plate;
+    private String description;
+    private String yearFabricated;
 
     public Vehicle() {
     }
 
-    public Vehicle(int id, String placa, String descricao, int anoFabricacao) {
+    public Vehicle(String plate, String description, String yearFabricated) {
+        this.plate = plate;
+        this.description = description;
+        this.yearFabricated = yearFabricated;
+    }
+
+    public Vehicle(int id, String plate, String description, String yearFabricated) {
         this.id = id;
-        this.placa = placa;
-        this.descricao = descricao;
-        this.anoFabricacao = anoFabricacao;
+        this.plate = plate;
+        this.description = description;
+        this.yearFabricated = yearFabricated;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getPlaca() {
-        return placa;
+    public String getPlate() {
+        return plate;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDescription() {
+        return description;
     }
 
-    public int getAnoFabricacao() {
-        return anoFabricacao;
+    public String getYearFabricated() {
+        return yearFabricated;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
