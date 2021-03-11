@@ -1,6 +1,7 @@
 package br.com.fleetmanager.controller;
 
-import br.com.fleetmanager.utils.Constants;
+import br.com.fleetmanager.utils.FXMLEnum;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -14,7 +15,7 @@ public class MainController {
 
     @FXML
     void actionOpenCadastroVeiculos(ActionEvent event) throws IOException {
-        WindowController.openWindow(Constants.cListGenericWindow);
+        WindowController.openWindow(FXMLEnum.LISTVEHICLE);
     }
 
 }
