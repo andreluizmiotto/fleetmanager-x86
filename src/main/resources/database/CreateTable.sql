@@ -3,7 +3,7 @@ CREATE TABLE public.veiculo
 	id SERIAL NOT NULL,
     placa VARCHAR(10),
     descricao VARCHAR(100),
-    anofabricacao smallint
+    anofabricacao VARCHAR(5)
 )
 
 TABLESPACE pg_default;
