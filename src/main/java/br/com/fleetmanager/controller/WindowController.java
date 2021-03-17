@@ -2,7 +2,6 @@ package br.com.fleetmanager.controller;
 
 import br.com.fleetmanager.Main;
 import br.com.fleetmanager.utils.FXMLEnum;
-import br.com.fleetmanager.utils.FXMLEnumClass;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,16 +11,18 @@ import java.io.IOException;
 
 public class WindowController {
 
-    public static void openWindow(final FXMLEnum pFXML) throws IOException {
+    public static void openWindow(final FXMLEnum.Enum pFXML) throws IOException {
         Stage stage = new Stage();
         stage.initOwner(Main.getPrimaryStage());
         openWindow(pFXML, stage);
     }
 
-    public static void openWindow(final FXMLEnum pFXML, final Stage pStage) throws IOException {
-        Parent root = loadFXML(FXMLEnumClass.getFXMLFile(pFXML));
-        pStage.setTitle(FXMLEnumClass.getFXMLTittle(pFXML));
-        pStage.setScene(new Scene(root, 1280, 720));
+    public static void openWindow(final FXMLEnum.Enum pFXML, final Stage pStage) throws IOException {
+        Parent root = loadFXML(FXMLEnum.getFXMLFile(pFXML));
+        pStage.setTitle(FXMLEnum.getFXMLTittle(pFXML));
+        Scene scene = new Scene(root, 1280, 720);
+        scene.getStylesheets().add(Main.class.getResource("/styles/FXMLStyles.css").toExternalForm());
+        pStage.setScene(scene);
         pStage.show();
     }
 
