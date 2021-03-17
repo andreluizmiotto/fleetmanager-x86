@@ -6,7 +6,7 @@ import java.util.List;
 public interface IBaseDAO<T> {
 
     boolean Save(T Object);
-    boolean Delete(T object);
+    boolean Delete(int id);
     List<T> ListAll() throws SQLException;
 
     boolean Insert(T Object);
