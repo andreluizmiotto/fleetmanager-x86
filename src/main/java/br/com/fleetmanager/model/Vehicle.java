@@ -1,10 +1,9 @@
 package br.com.fleetmanager.model;
 
-import br.com.fleetmanager.interfaces.IBaseModel;
+import br.com.fleetmanager.abstracts.ABaseModel;
 
-public class Vehicle implements IBaseModel {
+public class Vehicle extends ABaseModel {
 
-    private int id;
     private String plate;
     private String description;
     private String yearFabricated;
@@ -18,15 +17,12 @@ public class Vehicle implements IBaseModel {
         this.yearFabricated = yearFabricated;
     }
 
-    public Vehicle(int id, String plate, String description, String yearFabricated) {
+    public Vehicle(int id, short status, String plate, String description, String yearFabricated) {
+        super(id, status);
         this.id = id;
         this.plate = plate;
         this.description = description;
         this.yearFabricated = yearFabricated;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getPlate() {
@@ -41,7 +37,4 @@ public class Vehicle implements IBaseModel {
         return yearFabricated;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 }

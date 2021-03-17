@@ -12,7 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage pStage) throws Exception{
         setPrimaryStage(pStage);
-        WindowController.openWindow(FXMLEnum.MAINWINDOW, pStage);
+        WindowController.openWindow(FXMLEnum.Enum.MAINWINDOW, pStage);
     }
 
     public static void main(String[] args) {
