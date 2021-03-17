@@ -12,7 +12,8 @@
          <menus>
             <Menu mnemonicParsing="false" text="Cadastros">
               <items>
-                <MenuItem fx:id="menuItemCadVeiculos" mnemonicParsing="false" onAction="#actionOpenCadastroVeiculos" text="Veículos" />
+                <MenuItem fx:id="menuItemVehicles" mnemonicParsing="false" text="Veículos" />
+                  <MenuItem fx:id="menuItemCategories" mnemonicParsing="false" text="Categorias" />
               </items>
             </Menu>
          </menus>
