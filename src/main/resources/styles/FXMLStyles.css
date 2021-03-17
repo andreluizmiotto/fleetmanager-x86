@@ -1,0 +1,7 @@
+.text-field.error {
+  -fx-text-box-border: red;
+}
+
+.combo-box-base.error {
+  -fx-outer-border: red;
+}
