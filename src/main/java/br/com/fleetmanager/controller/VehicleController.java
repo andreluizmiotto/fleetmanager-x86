@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.validateField;
+import static br.com.fleetmanager.utils.FXMLStaticFunctions.isRequiredFieldMissing;
 
 public class VehicleController implements Initializable {
 
@@ -63,8 +63,8 @@ public class VehicleController implements Initializable {
     @FXML
     private Button btnClear;
 
-    EventHandler<ActionEvent> btnSaveHandler = (ActionEvent event) -> {
-        if (!validateFields())
+    final EventHandler<ActionEvent> btnSaveHandler = (ActionEvent event) -> {
+        if (missingRequiredFields())
             return;
         Vehicle vehicle = new Vehicle(
                 tfPlate.getText(),
@@ -77,11 +77,9 @@ public class VehicleController implements Initializable {
         listVehicles();
     };
 
-    EventHandler<ActionEvent> btnClearHandler = (ActionEvent event) -> {
-        clearFields();
-    };
+    final EventHandler<ActionEvent> btnClearHandler = (ActionEvent event) -> clearFields();
 
-    EventHandler<MouseEvent> lvMouseClicked = (MouseEvent event) -> {
+    final EventHandler<MouseEvent> lvMouseClicked = (MouseEvent event) -> {
         Vehicle vehicle = tableViewVehicle.getSelectionModel().getSelectedItem();
         if (vehicle == null)
             return;
@@ -101,19 +99,19 @@ public class VehicleController implements Initializable {
         tableViewVehicle.setOnMouseClicked(lvMouseClicked);
 
         tfPlate.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!Functions.isNull(newValue) && (newValue.length() > 8))
+            if (Functions.isNotNull(newValue) && (newValue.length() > 8))
                 tfPlate.setText(oldValue);
             clearErrorClass(tfPlate);
         });
 
         tfVehicle.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!Functions.isNull(newValue) && ((newValue.length() > 99)))
+            if (Functions.isNotNull(newValue) && ((newValue.length() > 99)))
                 tfVehicle.setText(oldValue);
             clearErrorClass(tfVehicle);
         });
 
         tfYearFabr.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!Functions.isNull(newValue) && (((!newValue.matches("\\d+")) || (newValue.length() > 4))))
+            if (Functions.isNotNull(newValue) && (((!newValue.matches("\\d+")) || (newValue.length() > 4))))
                 tfYearFabr.setText(oldValue);
         });
 
@@ -145,11 +143,10 @@ public class VehicleController implements Initializable {
         colBtnRemove.setCellFactory(fxmlFunctions.getDeleteButton(new VehicleDAO()));
     }
 
-    private boolean validateFields() {
-        boolean isValid = true;
-        isValid &= validateField(tfPlate);
-        isValid &= validateField(tfVehicle);
-        return isValid;
+    private boolean missingRequiredFields() {
+        boolean isMissing = isRequiredFieldMissing(tfPlate);
+        isMissing = isRequiredFieldMissing(tfVehicle) || isMissing;
+        return isMissing;
     }
 
 }

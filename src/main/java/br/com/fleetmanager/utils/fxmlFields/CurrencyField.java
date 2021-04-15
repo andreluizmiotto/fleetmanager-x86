@@ -3,7 +3,6 @@ package br.com.fleetmanager.utils.fxmlFields;
 import br.com.fleetmanager.utils.Functions;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
 
@@ -28,25 +27,19 @@ public class CurrencyField extends TextField {
         setText(format.format(initialAmount));
 
         // Remove selection when textfield gets focus
-        focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-            Platform.runLater(() -> {
-                int lenght = getText().length();
-                selectRange(lenght, lenght);
-                positionCaret(lenght);
-            });
-        });
+        focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> Platform.runLater(() -> {
+            int lenght = getText().length();
+            selectRange(lenght, lenght);
+            positionCaret(lenght);
+        }));
 
         // Listen the text's changes
-        textProperty().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!Functions.isNull(newValue) && (newValue.length() >= 15))
-                    formatText(oldValue);
-                else
-                    formatText(newValue);
-                clearErrorClass(CurrencyField.this);
-            }
+        textProperty().addListener((observable, oldValue, newValue) -> {
+            if (Functions.isNotNull(newValue) && (newValue.length() >= 15))
+                formatText(oldValue);
+            else
+                formatText(newValue);
+            clearErrorClass(CurrencyField.this);
         });
     }
 

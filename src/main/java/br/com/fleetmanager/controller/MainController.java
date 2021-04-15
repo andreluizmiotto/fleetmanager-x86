@@ -54,7 +54,7 @@ public class MainController implements Initializable {
     @FXML
     private Button btnGenerateReport;
 
-    EventHandler<ActionEvent> actionOpenVehicles = (ActionEvent event) -> {
+    final EventHandler<ActionEvent> actionOpenVehicles = (ActionEvent event) -> {
         try {
             WindowController.openWindow(FXMLEnum.Enum.VEHICLE);
         } catch (IOException e) {
@@ -62,7 +62,7 @@ public class MainController implements Initializable {
         }
     };
 
-    EventHandler<ActionEvent> actionOpenCategories = (ActionEvent event) -> {
+    final EventHandler<ActionEvent> actionOpenCategories = (ActionEvent event) -> {
         try {
             WindowController.openWindow(FXMLEnum.Enum.FINANCIALCATEGORY);
         } catch (IOException e) {
@@ -70,7 +70,7 @@ public class MainController implements Initializable {
         }
     };
 
-    EventHandler<ActionEvent> actionOpenFinancialTransactions = (ActionEvent event) -> {
+    final EventHandler<ActionEvent> actionOpenFinancialTransactions = (ActionEvent event) -> {
         try {
             WindowController.openWindow(FXMLEnum.Enum.FINANCIALTRANSACTION);
         } catch (IOException e) {
@@ -78,7 +78,7 @@ public class MainController implements Initializable {
         }
     };
 
-    EventHandler<ActionEvent> actionGenerateReport = (ActionEvent event) -> {
+    final EventHandler<ActionEvent> actionGenerateReport = (ActionEvent event) -> {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("dataInicial", Date.from(dtInitialDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         parameters.put("dataFinal", Date.from(dtFinalDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));

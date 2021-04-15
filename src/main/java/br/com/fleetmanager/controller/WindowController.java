@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class WindowController {
 
@@ -22,9 +23,9 @@ public class WindowController {
     public static void openWindow(final FXMLEnum.Enum pFXML, final Stage pStage) throws IOException {
         Parent root = loadFXML(FXMLEnum.getFXMLFile(pFXML));
         pStage.setTitle(FXMLEnum.getFXMLTittle(pFXML));
-        pStage.getIcons().add(new Image(Main.class.getResourceAsStream(Constants.sIconsFolder + FXMLEnum.getFXMLIcon(pFXML))));
+        pStage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream(Constants.sIconsFolder + FXMLEnum.getFXMLIcon(pFXML)))));
         Scene scene = new Scene(root, 1280, 720);
-        scene.getStylesheets().add(Main.class.getResource(Constants.sStylesFolder + "FXMLStyles.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource(Constants.sStylesFolder + "FXMLStyles.css")).toExternalForm());
         pStage.setScene(scene);
         pStage.show();
     }

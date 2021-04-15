@@ -16,10 +16,10 @@ public class FXMLFunctions<T> {
 
     public Callback<TableColumn<T, Void>, TableCell<T, Void>> getDeleteButton(ABaseDAO objectDAO) {
 
-        Callback<TableColumn<T, Void>, TableCell<T, Void>> cellFactory = new Callback<>() {
+        return new Callback<>() {
             @Override
             public TableCell<T, Void> call(final TableColumn<T, Void> param) {
-                final TableCell<T, Void> cell = new TableCell<>() {
+                return new TableCell<>() {
 
                     private final Button btn = new Button("", Functions.getImageView(getClass(), "trash_16px.png"));
 
@@ -46,9 +46,7 @@ public class FXMLFunctions<T> {
                             setGraphic(btn);
                     }
                 };
-                return cell;
             }
         };
-        return cellFactory;
     }
 }

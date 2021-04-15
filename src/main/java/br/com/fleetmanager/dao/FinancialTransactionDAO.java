@@ -66,7 +66,7 @@ public class FinancialTransactionDAO extends ABaseDAO {
     }
 
     @Override
-    public List ListAll() {
+    public List<FinancialTransaction> ListAll() {
         return ListByPeriod(null, null);
     }
 

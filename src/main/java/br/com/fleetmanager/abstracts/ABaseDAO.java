@@ -23,7 +23,7 @@ public abstract class ABaseDAO implements IBaseDAO {
         this.connection = connection;
     }
 
-    public boolean Delete(int id) {
+    public void Delete(int id) {
         String sql = ("UPDATE " + tableName + " SET status = ? WHERE id = ?");
         try(PreparedStatement pStmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -32,11 +32,9 @@ public abstract class ABaseDAO implements IBaseDAO {
             pStmt.execute();
             Audit(id);
 
-            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return false;
     }
 
     public void Audit(int id) {

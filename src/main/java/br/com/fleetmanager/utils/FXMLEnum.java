@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class FXMLEnum {
 
-    public static enum Enum {
+    public enum Enum {
         MAINWINDOW, VEHICLE, FINANCIALCATEGORY, FINANCIALTRANSACTION
     }
 
