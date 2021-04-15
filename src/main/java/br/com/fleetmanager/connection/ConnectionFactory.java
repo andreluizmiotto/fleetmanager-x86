@@ -10,12 +10,12 @@ public class ConnectionFactory {
 
     }
 
-    public Connection getNewConnection() throws SQLException {
-        return DriverManager
-                .getConnection
-                        ("jdbc:postgresql://localhost/camelo",
-                                "postgres", "0098");
+    public Connection getNewConnection() {
+        try {
+            return DriverManager.getConnection("jdbc:postgresql://localhost/camelo","postgres", "0098");
+        } catch (SQLException throwables) {
+            throw new RuntimeException(throwables);
+        }
     }
-
 
 }
