@@ -1,7 +1,6 @@
 package br.com.fleetmanager.controller;
 
 import br.com.fleetmanager.connection.ConnectionFactory;
-import br.com.fleetmanager.utils.Constants;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -10,7 +9,7 @@ import java.util.Map;
 
 public class ReportController {
 
-    private static String destFileName = "report.pdf";
+    private static final String destFileName = "report.pdf";
     private final Map<String, Object> parameters;
     private final String reportName;
 

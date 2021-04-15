@@ -11,9 +11,9 @@ import javafx.scene.input.KeyEvent;
     https://stackoverflow.com/questions/19924852/autocomplete-combobox-in-javafx */
 public class AutoCompleteCombobox<T> implements EventHandler<KeyEvent> {
 
-    private ComboBox comboBox;
-    private StringBuilder sb;
-    private ObservableList<T> data;
+    private final ComboBox comboBox;
+    private final StringBuilder sb;
+    private final ObservableList<T> data;
     private boolean moveCaretToPos = false;
     private int caretPos;
 

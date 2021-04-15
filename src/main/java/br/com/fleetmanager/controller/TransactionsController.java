@@ -177,7 +177,7 @@ public class TransactionsController implements Initializable {
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colDate.setCellFactory(column -> {
             TableCell<FinancialTransaction, Date> cell = new TableCell<>() {
-                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                 @Override
                 protected void updateItem(Date item, boolean empty) {
                     super.updateItem(item, empty);

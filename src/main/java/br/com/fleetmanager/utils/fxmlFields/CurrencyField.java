@@ -16,7 +16,7 @@ import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
 public class CurrencyField extends TextField {
 
     private NumberFormat format;
-    private SimpleDoubleProperty amount;
+    private final SimpleDoubleProperty amount;
 
     public CurrencyField() {
         this(new Locale("pt","BR"), 0.00);

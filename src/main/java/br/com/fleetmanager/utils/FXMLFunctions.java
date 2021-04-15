@@ -34,7 +34,6 @@ public class FXMLFunctions<T> {
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
-                            ;
                         });
                     }
 

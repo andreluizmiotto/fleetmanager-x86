@@ -8,7 +8,7 @@ import java.sql.*;
 public abstract class ABaseDAO implements IBaseDAO {
 
     protected Connection connection;
-    private String tableName;
+    private final String tableName;
 
     public ABaseDAO(Connection pConnection, String pTableName) {
         this.connection = pConnection;
