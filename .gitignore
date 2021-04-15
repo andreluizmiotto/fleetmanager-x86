@@ -144,3 +144,9 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,maven
+
+# Jasper Reports
+/src/main/resources/.metadata
+/src/main/resources/jasperReports/bin/
+/src/main/resources/jasperReports/syntheticReport.jasper
+/src/main/resources/jasperReports/analyticReport.jasper
