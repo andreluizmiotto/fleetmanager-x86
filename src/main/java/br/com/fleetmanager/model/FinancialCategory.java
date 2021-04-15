@@ -41,4 +41,9 @@ public class FinancialCategory extends ABaseModel {
     public String getTypeToString() {
         return typeEnum.get(this.type);
     }
+
+    @Override
+    public String toString() {
+        return id + " - " + description;
+    }
 }

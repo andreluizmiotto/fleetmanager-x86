@@ -6,7 +6,6 @@ import br.com.fleetmanager.model.FinancialCategory;
 import br.com.fleetmanager.utils.FXMLFunctions;
 import br.com.fleetmanager.utils.Functions;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,11 +15,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
+import static br.com.fleetmanager.utils.FXMLStaticFunctions.validateField;
+
 public class FinancialCategoryController implements Initializable {
+
+    private FinancialCategoryDAO financialCategoryDAO;
 
     @FXML
     private TableView<FinancialCategory> tableView;
@@ -56,19 +58,14 @@ public class FinancialCategoryController implements Initializable {
 
         if (!validateFields())
             return;
-        try(Connection connection = new ConnectionFactory().getNewConnection()) {
-            FinancialCategoryDAO financialCategoryDAO = new FinancialCategoryDAO(connection);
-            FinancialCategory financialCategory = new FinancialCategory(
-                    tfCategory.getText(),
-                    (short) cbType.getSelectionModel().getSelectedIndex());
-            if (!tfId.getText().isEmpty())
-                financialCategory.setId(Integer.parseInt(tfId.getText()));
-            financialCategoryDAO.Save(financialCategory);
-            clearFields();
-            listCategories();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        FinancialCategory financialCategory = new FinancialCategory(
+                tfCategory.getText(),
+                (short) cbType.getSelectionModel().getSelectedIndex());
+        if (!tfId.getText().isEmpty())
+            financialCategory.setId(Integer.parseInt(tfId.getText()));
+        financialCategoryDAO.Save(financialCategory);
+        clearFields();
+        listCategories();
     };
 
     EventHandler<ActionEvent> btnClearHandler = (ActionEvent event) -> {
@@ -87,6 +84,8 @@ public class FinancialCategoryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        financialCategoryDAO = new FinancialCategoryDAO(new ConnectionFactory().getNewConnection());
+
         btnSave.setOnAction(btnSaveHandler);
         btnClear.setOnAction(btnClearHandler);
         tableView.setOnMouseClicked(lvMouseClicked);
@@ -100,12 +99,11 @@ public class FinancialCategoryController implements Initializable {
         cbType.getItems().addAll(
                 "Receita", "Despesa");
         cbType.valueProperty().addListener((options, oldValue, newValue) -> {
-            if ((cbType.getSelectionModel().getSelectedIndex() >= 0) && cbType.getStyleClass().contains("error"))
-                cbType.getStyleClass().remove("error");
+            clearErrorClass(cbType);
         });
-
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colDescription.getStyleClass().add("longtext");
         colType.setCellValueFactory(new PropertyValueFactory<>("typeToString"));
         addButtonToTable();
 
@@ -113,17 +111,7 @@ public class FinancialCategoryController implements Initializable {
     }
 
     private void listCategories() {
-        try {
-            tableView.setItems(categories());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    private ObservableList categories() throws SQLException {
-        try(Connection connection = new ConnectionFactory().getNewConnection()) {
-            return FXCollections.observableArrayList(new FinancialCategoryDAO(connection).ListAll());
-        }
+        tableView.setItems(FXCollections.observableArrayList(financialCategoryDAO.ListAll()));
     }
 
     private void clearFields() {
@@ -134,20 +122,13 @@ public class FinancialCategoryController implements Initializable {
 
     private void addButtonToTable() {
         FXMLFunctions<FinancialCategory> fxmlFunctions = new FXMLFunctions<>();
-        colBtnRemove.setCellFactory(fxmlFunctions.getDeleteButton(new FinancialCategoryDAO()));
-    }
-
-    private void clearErrorClass(TextField pTField) {
-        if (!pTField.getText().isBlank() && pTField.getStyleClass().contains("error"))
-            pTField.getStyleClass().remove("error");
+        colBtnRemove.setCellFactory(fxmlFunctions.getDeleteButton(financialCategoryDAO));
     }
 
     private boolean validateFields() {
-        if (tfCategory.getText().isBlank())
-            tfCategory.getStyleClass().add("error");
-        if ((short) cbType.getSelectionModel().getSelectedIndex() < 0)
-            cbType.getStyleClass().add("error");
-        return !(tfCategory.getText().isBlank() ||
-                ((short) cbType.getSelectionModel().getSelectedIndex() < 0));
+        boolean isValid = true;
+        isValid &= validateField(tfCategory);
+        isValid &= validateField(cbType);
+        return isValid;
     }
 }

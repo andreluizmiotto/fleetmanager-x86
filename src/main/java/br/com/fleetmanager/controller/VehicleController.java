@@ -6,21 +6,26 @@ import br.com.fleetmanager.model.Vehicle;
 import br.com.fleetmanager.utils.FXMLFunctions;
 import br.com.fleetmanager.utils.Functions;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
+import static br.com.fleetmanager.utils.FXMLStaticFunctions.validateField;
+
 public class VehicleController implements Initializable {
+
+    private VehicleDAO vehicleDAO;
 
     @FXML
     private TableView<Vehicle> tableViewVehicle;
@@ -59,24 +64,17 @@ public class VehicleController implements Initializable {
     private Button btnClear;
 
     EventHandler<ActionEvent> btnSaveHandler = (ActionEvent event) -> {
-
         if (!validateFields())
             return;
-        try(Connection connection = new ConnectionFactory().getNewConnection()) {
-            VehicleDAO vehicleDAO = new VehicleDAO(connection);
-            Vehicle vehicle = new Vehicle(
-                    tfPlate.getText(),
-                    tfVehicle.getText(),
-                    tfYearFabr.getText());
-            if (!tfId.getText().isEmpty())
-                vehicle.setId(Integer.parseInt(tfId.getText()));
-            vehicleDAO.Save(vehicle);
-            clearFields();
-            listVehicles();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        Vehicle vehicle = new Vehicle(
+                tfPlate.getText(),
+                tfVehicle.getText(),
+                tfYearFabr.getText());
+        if (!tfId.getText().isEmpty())
+            vehicle.setId(Integer.parseInt(tfId.getText()));
+        vehicleDAO.Save(vehicle);
+        clearFields();
+        listVehicles();
     };
 
     EventHandler<ActionEvent> btnClearHandler = (ActionEvent event) -> {
@@ -95,6 +93,8 @@ public class VehicleController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        this.vehicleDAO = new VehicleDAO(new ConnectionFactory().getNewConnection());
 
         btnSave.setOnAction(btnSaveHandler);
         btnClear.setOnAction(btnClearHandler);
@@ -120,6 +120,7 @@ public class VehicleController implements Initializable {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPlate.setCellValueFactory(new PropertyValueFactory<>("plate"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colDescription.getStyleClass().add("longtext");
         colYearFabr.setCellValueFactory(new PropertyValueFactory<>("yearFabricated"));
         addButtonToTable();
 
@@ -127,17 +128,7 @@ public class VehicleController implements Initializable {
     }
 
     private void listVehicles() {
-        try {
-            tableViewVehicle.setItems(vehicles());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    private ObservableList vehicles() throws SQLException {
-        try(Connection connection = new ConnectionFactory().getNewConnection()) {
-            return FXCollections.observableArrayList(new VehicleDAO(connection).ListAll());
-        }
+        tableViewVehicle.setItems(FXCollections.observableArrayList(vehicleDAO.ListAll()));
     }
 
     private void clearFields() {
@@ -154,18 +145,11 @@ public class VehicleController implements Initializable {
         colBtnRemove.setCellFactory(fxmlFunctions.getDeleteButton(new VehicleDAO()));
     }
 
-    private void clearErrorClass(TextField pTField) {
-        if (!pTField.getText().isBlank() && pTField.getStyleClass().contains("error"))
-            pTField.getStyleClass().remove("error");
-    }
-
     private boolean validateFields() {
-        if (tfPlate.getText().isBlank())
-            tfPlate.getStyleClass().add("error");
-        if (tfVehicle.getText().isBlank())
-            tfVehicle.getStyleClass().add("error");
-        return !(tfPlate.getText().isBlank() ||
-                 tfVehicle.getText().isBlank());
+        boolean isValid = true;
+        isValid &= validateField(tfPlate);
+        isValid &= validateField(tfVehicle);
+        return isValid;
     }
 
 }

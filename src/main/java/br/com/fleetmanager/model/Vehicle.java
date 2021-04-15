@@ -19,7 +19,6 @@ public class Vehicle extends ABaseModel {
 
     public Vehicle(int id, short status, String plate, String description, String yearFabricated) {
         super(id, status);
-        this.id = id;
         this.plate = plate;
         this.description = description;
         this.yearFabricated = yearFabricated;
@@ -37,4 +36,8 @@ public class Vehicle extends ABaseModel {
         return yearFabricated;
     }
 
+    @Override
+    public String toString() {
+        return id + " - " + plate + " - " + description;
+    }
 }
