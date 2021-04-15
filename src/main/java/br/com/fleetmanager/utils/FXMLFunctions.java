@@ -4,11 +4,9 @@ import br.com.fleetmanager.abstracts.ABaseDAO;
 import br.com.fleetmanager.abstracts.ABaseModel;
 import br.com.fleetmanager.connection.ConnectionFactory;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
 import java.sql.Connection;
@@ -18,25 +16,25 @@ public class FXMLFunctions<T> {
 
     public Callback<TableColumn<T, Void>, TableCell<T, Void>> getDeleteButton(ABaseDAO objectDAO) {
 
-        Callback<TableColumn<T, Void>, TableCell<T, Void>> cellFactory = new Callback<TableColumn<T, Void>, TableCell<T, Void>>() {
+        Callback<TableColumn<T, Void>, TableCell<T, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<T, Void> call(final TableColumn<T, Void> param) {
-                final TableCell<T, Void> cell = new TableCell<T, Void>() {
+                final TableCell<T, Void> cell = new TableCell<>() {
 
-                    final Node node = new ImageView("file:src/main/resources/icons/trash_16px.png");
-                    private final Button btn = new Button("", node);
+                    private final Button btn = new Button("", Functions.getImageView(getClass(), "trash_16px.png"));
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             //TODO Implement confirmation message before execute action
-                            try(Connection connection = new ConnectionFactory().getNewConnection()) {
+                            try (Connection connection = new ConnectionFactory().getNewConnection()) {
                                 T object = getTableView().getItems().get(getIndex());
                                 objectDAO.setConnection(connection);
-                                objectDAO.Delete(((ABaseModel)object).getId());
-                                getTableView().getItems().remove(getTableView().getSelectionModel().getSelectedItem());
+                                objectDAO.Delete(((ABaseModel) object).getId());
+                                getTableView().getItems().remove(object);
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
-                            };
+                            }
+                            ;
                         });
                     }
 
