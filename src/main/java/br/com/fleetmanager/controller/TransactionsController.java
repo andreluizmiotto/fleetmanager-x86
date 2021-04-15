@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.validateField;
+import static br.com.fleetmanager.utils.FXMLStaticFunctions.isRequiredFieldMissing;
 
 public class TransactionsController implements Initializable {
 
@@ -124,9 +124,9 @@ public class TransactionsController implements Initializable {
     @FXML
     private TextField tfBalance;
 
-    EventHandler<ActionEvent> btnSaveHandler = (ActionEvent event) -> {
+    final EventHandler<ActionEvent> btnSaveHandler = (ActionEvent event) -> {
 
-        if (!validateFields())
+        if (missingRequiredFields())
             return;
         FinancialTransaction financialTransaction = new FinancialTransaction(
                 Date.valueOf(dtTransaction.getValue()),
@@ -141,11 +141,9 @@ public class TransactionsController implements Initializable {
         listTransactions();
     };
 
-    EventHandler<ActionEvent> btnClearHandler = (ActionEvent event) -> {
-        clearFields(true);
-    };
+    final EventHandler<ActionEvent> btnClearHandler = (ActionEvent event) -> clearFields(true);
 
-    EventHandler<MouseEvent> lvMouseClicked = (MouseEvent event) -> {
+    final EventHandler<MouseEvent> lvMouseClicked = (MouseEvent event) -> {
         FinancialTransaction transaction = tableView.getSelectionModel().getSelectedItem();
         if (transaction == null)
             return;
@@ -165,7 +163,7 @@ public class TransactionsController implements Initializable {
         initializeCbCategory();
 
         tfDescription.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!Functions.isNull(newValue) && ((newValue.length() > 99)))
+            if (Functions.isNotNull(newValue) && ((newValue.length() > 99)))
                 tfDescription.setText(oldValue);
         });
 
@@ -175,20 +173,18 @@ public class TransactionsController implements Initializable {
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        colDate.setCellFactory(column -> {
-            TableCell<FinancialTransaction, Date> cell = new TableCell<>() {
-                private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-                @Override
-                protected void updateItem(Date item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setText(null);
-                    } else {
-                        setText(format.format(item));
-                    }
+        colDate.setCellFactory(column -> new TableCell<>() {
+            private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+            @Override
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(format.format(item));
                 }
-            };
-            return cell;
+            }
         });
         colPlate.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicle().getPlate()));
         colVehicle.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getVehicle().getDescription()));
@@ -220,13 +216,9 @@ public class TransactionsController implements Initializable {
         dtInitialDate.setValue(LocalDate.from(LocalDateTime.now().withDayOfMonth(1)));
         dtFinalDate.setValue(LocalDate.from(LocalDateTime.now()));
 
-        dtInitialDate.valueProperty().addListener((observable, oldDate, newDate)->{
-            listTransactions();
-        });
+        dtInitialDate.valueProperty().addListener((observable, oldDate, newDate)-> listTransactions());
 
-        dtFinalDate.valueProperty().addListener((observable, oldDate, newDate)->{
-            listTransactions();
-        });
+        dtFinalDate.valueProperty().addListener((observable, oldDate, newDate)-> listTransactions());
 
         tfSumIncome.setStyle("-fx-text-inner-color: darkgreen;");
         tfSumExpenses.setStyle("-fx-text-inner-color: firebrick;");
@@ -283,9 +275,7 @@ public class TransactionsController implements Initializable {
                     return cbVehicle.getItems().stream().filter(obj -> obj.toString().equals(string)).findFirst().orElse(null);
                 }
             });
-            cbVehicle.valueProperty().addListener((composant, oldValue, newValue) -> {
-                clearErrorClass(cbVehicle);
-            });
+            cbVehicle.valueProperty().addListener((composant, oldValue, newValue) -> clearErrorClass(cbVehicle));
         } catch (SQLException throwables) {
             throw new RuntimeException(throwables);
         }
@@ -308,9 +298,7 @@ public class TransactionsController implements Initializable {
                     return cbCategory.getItems().stream().filter(obj -> obj.toString().equals(string)).findFirst().orElse(null);
                 }
             });
-            cbCategory.valueProperty().addListener((composant, oldValue, newValue) -> {
-                clearErrorClass(cbCategory);
-            });
+            cbCategory.valueProperty().addListener((composant, oldValue, newValue) -> clearErrorClass(cbCategory));
         } catch (SQLException throwables) {
             throw new RuntimeException(throwables);
         }
@@ -335,11 +323,10 @@ public class TransactionsController implements Initializable {
         colBtnRemove.setCellFactory(fxmlFunctions.getDeleteButton(new FinancialTransactionDAO()));
     }
 
-    private boolean validateFields() {
-        boolean isValid = true;
-        isValid &= validateField(cbVehicle);
-        isValid &= validateField(cbCategory);
-        isValid &= validateField(tfValue);
-        return isValid;
+    private boolean missingRequiredFields() {
+        boolean isMissing = isRequiredFieldMissing(cbVehicle);
+        isMissing = isRequiredFieldMissing(cbCategory) || isMissing;
+        isMissing = isRequiredFieldMissing(tfValue) || isMissing;
+        return isMissing;
     }
 }

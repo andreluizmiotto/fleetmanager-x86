@@ -4,8 +4,8 @@ import javafx.scene.image.ImageView;
 
 public class Functions {
 
-    public static boolean isNull(String value) {
-        return ((value == null) || (value.isBlank()));
+    public static boolean isNotNull(String value) {
+        return ((value != null) && (!value.isBlank()));
     }
 
     public static String formatMonetary(final String pValue, final int pDigit) {

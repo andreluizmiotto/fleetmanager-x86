@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.validateField;
+import static br.com.fleetmanager.utils.FXMLStaticFunctions.isRequiredFieldMissing;
 
 public class FinancialCategoryController implements Initializable {
 
@@ -54,9 +54,9 @@ public class FinancialCategoryController implements Initializable {
     @FXML
     private Button btnClear;
 
-    EventHandler<ActionEvent> btnSaveHandler = (ActionEvent event) -> {
+    final EventHandler<ActionEvent> btnSaveHandler = (ActionEvent event) -> {
 
-        if (!validateFields())
+        if (missingRequiredFields())
             return;
         FinancialCategory financialCategory = new FinancialCategory(
                 tfCategory.getText(),
@@ -68,11 +68,9 @@ public class FinancialCategoryController implements Initializable {
         listCategories();
     };
 
-    EventHandler<ActionEvent> btnClearHandler = (ActionEvent event) -> {
-        clearFields();
-    };
+    final EventHandler<ActionEvent> btnClearHandler = (ActionEvent event) -> clearFields();
 
-    EventHandler<MouseEvent> lvMouseClicked = (MouseEvent event) -> {
+    final EventHandler<MouseEvent> lvMouseClicked = (MouseEvent event) -> {
         FinancialCategory financialCategory = tableView.getSelectionModel().getSelectedItem();
         if (financialCategory == null)
             return;
@@ -91,16 +89,14 @@ public class FinancialCategoryController implements Initializable {
         tableView.setOnMouseClicked(lvMouseClicked);
 
         tfCategory.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!Functions.isNull(newValue) && ((newValue.length() > 99)))
+            if (Functions.isNotNull(newValue) && ((newValue.length() > 99)))
                 tfCategory.setText(oldValue);
             clearErrorClass(tfCategory);
         });
 
         cbType.getItems().addAll(
                 "Receita", "Despesa");
-        cbType.valueProperty().addListener((options, oldValue, newValue) -> {
-            clearErrorClass(cbType);
-        });
+        cbType.valueProperty().addListener((options, oldValue, newValue) -> clearErrorClass(cbType));
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colDescription.getStyleClass().add("longtext");
@@ -125,10 +121,9 @@ public class FinancialCategoryController implements Initializable {
         colBtnRemove.setCellFactory(fxmlFunctions.getDeleteButton(financialCategoryDAO));
     }
 
-    private boolean validateFields() {
-        boolean isValid = true;
-        isValid &= validateField(tfCategory);
-        isValid &= validateField(cbType);
-        return isValid;
+    private boolean missingRequiredFields() {
+        boolean isMissing = isRequiredFieldMissing(tfCategory);
+        isMissing = isRequiredFieldMissing(cbType) || isMissing;
+        return isMissing;
     }
 }

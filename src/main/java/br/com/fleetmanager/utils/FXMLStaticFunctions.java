@@ -17,19 +17,19 @@ public class FXMLStaticFunctions {
             pComboBox.getStyleClass().remove(cCssErrorFlag);
     }
 
-    public static boolean validateField(TextField pTField) {
+    public static boolean isRequiredFieldMissing(TextField pTField) {
         if (pTField.getText().isBlank()) {
             pTField.getStyleClass().add("error");
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public static boolean validateField(ComboBox pComboBox) {
+    public static boolean isRequiredFieldMissing(ComboBox pComboBox) {
         if (pComboBox.getValue() != null)
-            return true;
+            return false;
         pComboBox.getStyleClass().add("error");
-        return false;
+        return true;
     }
 
 }
