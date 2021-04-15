@@ -8,12 +8,12 @@ public class FXMLStaticFunctions {
     private static final String cCssErrorFlag = "error";
 
     public static void clearErrorClass(TextField pTField) {
-        if (!pTField.getText().isBlank() && pTField.getStyleClass().contains(cCssErrorFlag))
+        if (!pTField.getText().isBlank())
             pTField.getStyleClass().remove(cCssErrorFlag);
     }
 
     public static void clearErrorClass(ComboBox pComboBox) {
-        if ((pComboBox.getValue() != null) && pComboBox.getStyleClass().contains(cCssErrorFlag))
+        if ((pComboBox.getValue() != null))
             pComboBox.getStyleClass().remove(cCssErrorFlag);
     }
 
