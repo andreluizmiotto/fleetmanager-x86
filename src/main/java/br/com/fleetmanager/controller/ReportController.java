@@ -1,10 +1,12 @@
 package br.com.fleetmanager.controller;
 
+import br.com.fleetmanager.Main;
 import br.com.fleetmanager.connection.ConnectionFactory;
+import br.com.fleetmanager.utils.Constants;
+import javafx.application.HostServices;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
+import java.io.File;
 import java.util.Map;
 
 public class ReportController {
@@ -20,13 +22,18 @@ public class ReportController {
 
     public void GerarPDF() {
         try {
-            JasperDesign jasperDesign = JRXmlLoader.load("src/main/resources/jasperReports/syntheticReport.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(
+                    getClass().getResourceAsStream(Constants.sJReportsFolder + this.reportName + ".jrxml"));
 
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
                 this.parameters, new ConnectionFactory().getNewConnection());
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+
+            File file = new File(destFileName);
+            HostServices hostServices = Main.getInstance().getHostServices();
+            hostServices.showDocument(file.getAbsolutePath());
+
         } catch (JRException throwables) {
             throw new RuntimeException(throwables);
         }
