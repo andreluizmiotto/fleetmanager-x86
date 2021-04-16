@@ -123,7 +123,7 @@ ORDER BY veic.id, cat.id, lanc.id]]>
 					<text><![CDATA[Total veículo:]]></text>
 				</staticText>
 				<line>
-					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="f803a801-6dd7-4dd2-abdb-03c18dfff702"/>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="1" width="555" height="1" uuid="f803a801-6dd7-4dd2-abdb-03c18dfff702"/>
 					<graphicElement>
 						<pen lineWidth="0.5" lineColor="#999999"/>
 					</graphicElement>

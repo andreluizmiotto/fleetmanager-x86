@@ -77,7 +77,7 @@ ORDER BY veic.id]]>
 	<group name="GroupLancamentos">
 		<groupExpression><![CDATA[$F{idveiculo}]]></groupExpression>
 		<groupHeader>
-			<band height="21">
+			<band height="22">
 				<textField>
 					<reportElement style="SubTitle" x="4" y="2" width="550" height="18" forecolor="#000000" uuid="58dcc1c6-1d3b-42b1-ab28-0ec976da8319">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -97,7 +97,7 @@ ORDER BY veic.id]]>
 		<groupFooter>
 			<band height="17">
 				<textField>
-					<reportElement style="Detail" x="460" y="0" width="95" height="15" backcolor="rgba(255, 4, 0, 0.15686275)" uuid="6b9a18b2-a6e7-4a53-a87f-dc5f2445f2a4">
+					<reportElement style="Detail" x="460" y="1" width="95" height="15" backcolor="rgba(255, 4, 0, 0.15686275)" uuid="6b9a18b2-a6e7-4a53-a87f-dc5f2445f2a4">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbaeedc1-2aab-4fa6-be55-94339891cec0"/>
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					</reportElement>
@@ -105,12 +105,18 @@ ORDER BY veic.id]]>
 					<textFieldExpression><![CDATA[($V{vSumLancamentos} >= 0) ? "<style backcolor='#FFFFFF'>" + new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($V{vSumLancamentos})) + "</style>" : "<style backcolor='#ffe5e5'>"+	new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($V{vSumLancamentos})) + "</style>"]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement style="Column header" x="338" y="0" width="122" height="15" uuid="b1ab4144-68ff-4253-8215-15370db7ef55">
+					<reportElement style="Column header" x="338" y="1" width="122" height="15" uuid="b1ab4144-68ff-4253-8215-15370db7ef55">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbaeedc1-2aab-4fa6-be55-94339891cec0"/>
 					</reportElement>
 					<textElement textAlignment="Right"/>
 					<text><![CDATA[Total:]]></text>
 				</staticText>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="cb229859-ab9a-4aa3-afa2-84439642f4ee"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
 			</band>
 		</groupFooter>
 	</group>
@@ -190,12 +196,6 @@ ORDER BY veic.id]]>
 	</columnHeader>
 	<detail>
 		<band height="18" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="cb229859-ab9a-4aa3-afa2-84439642f4ee"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
 			<textField>
 				<reportElement style="Detail" x="20" y="0" width="250" height="15" uuid="bf444b22-e9fa-4726-9246-25a7812e4333">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
