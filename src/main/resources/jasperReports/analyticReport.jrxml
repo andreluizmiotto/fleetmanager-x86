@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="analyticReport" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a1f690a3-5977-4467-85f8-6b0bcd5b7210">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.report.description" value="Analytic Report"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Postgres.xml"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="dataInicial" class="java.util.Date"/>
+	<parameter name="dataFinal" class="java.util.Date"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT veic.id AS idVeiculo, veic.placa AS placaVeiculo, veic.descricao AS descricaoVeiculo, 
+	cat.id AS idCategoria, cat.descricao AS descricaoCategoria, cat.tipo AS tipoCategoria,
+	lanc.id AS idLancamento, lanc.data AS dataLancamento, lanc.descricao AS descricaoLancamento, lanc.valor AS valorLancamento
+FROM lancfinanceiro lanc
+INNER JOIN categoriafinanceira cat
+	ON (lanc.idCategoria = cat.id)
+INNER JOIN veiculo veic
+	ON (lanc.idVeiculo = veic.id)
+WHERE (lanc.data BETWEEN $P{dataInicial} AND $P{dataFinal})
+	AND (lanc.status = 1)
+ORDER BY veic.id, cat.id, lanc.id]]>
+	</queryString>
+	<field name="idveiculo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idveiculo"/>
+		<property name="com.jaspersoft.studio.field.label" value="idveiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="veiculo"/>
+	</field>
+	<field name="placaveiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="placaveiculo"/>
+		<property name="com.jaspersoft.studio.field.label" value="placaveiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="veiculo"/>
+	</field>
+	<field name="descricaoveiculo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descricaoveiculo"/>
+		<property name="com.jaspersoft.studio.field.label" value="descricaoveiculo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="veiculo"/>
+	</field>
+	<field name="idcategoria" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idcategoria"/>
+		<property name="com.jaspersoft.studio.field.label" value="idcategoria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="categoriafinanceira"/>
+	</field>
+	<field name="descricaocategoria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descricaocategoria"/>
+		<property name="com.jaspersoft.studio.field.label" value="descricaocategoria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="categoriafinanceira"/>
+	</field>
+	<field name="tipocategoria" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="tipocategoria"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipocategoria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="categoriafinanceira"/>
+	</field>
+	<field name="idlancamento" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idlancamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="idlancamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lancfinanceiro"/>
+	</field>
+	<field name="datalancamento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="datalancamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="datalancamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lancfinanceiro"/>
+	</field>
+	<field name="descricaolancamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descricaolancamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="descricaolancamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lancfinanceiro"/>
+	</field>
+	<field name="valorlancamento" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="valorlancamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="valorlancamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="lancfinanceiro"/>
+	</field>
+	<variable name="vSumLancamentos" class="java.lang.Double" resetType="Group" resetGroup="GroupVeiculos" calculation="Sum">
+		<variableExpression><![CDATA[($F{tipocategoria} == 0) ? $F{valorlancamento} : $F{valorlancamento} * (-1)]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="vSumTotal" class="java.lang.Double" resetType="Master" incrementType="Group" incrementGroup="GroupVeiculos" calculation="Sum">
+		<variableExpression><![CDATA[$V{vSumLancamentos}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="GroupVeiculos">
+		<groupExpression><![CDATA[$F{idveiculo}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<property name="com.jaspersoft.studio.layout"/>
+				<textField>
+					<reportElement style="SubTitle" x="4" y="2" width="550" height="18" forecolor="#000000" uuid="58dcc1c6-1d3b-42b1-ab28-0ec976da8319">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{idveiculo} + ". [" + $F{placaveiculo} + "] - " + $F{descricaoveiculo}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="0" y="2" width="555" height="18" forecolor="rgba(255, 255, 255, 0.0)" backcolor="rgba(168, 168, 168, 0.15686275)" uuid="a21e82e8-4914-4a2f-9794-e22ffab06ee9"/>
+				</rectangle>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField>
+					<reportElement style="Detail" x="460" y="3" width="95" height="15" backcolor="rgba(255, 4, 0, 0.15686275)" uuid="6b9a18b2-a6e7-4a53-a87f-dc5f2445f2a4">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbaeedc1-2aab-4fa6-be55-94339891cec0"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" markup="styled"/>
+					<textFieldExpression><![CDATA[($V{vSumLancamentos} >= 0) ? "<style backcolor='#FFFFFF'>" + new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($V{vSumLancamentos})) + "</style>" : "<style backcolor='#ffe5e5'>"+	new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($V{vSumLancamentos})) + "</style>"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="338" y="3" width="122" height="15" uuid="b1ab4144-68ff-4253-8215-15370db7ef55">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbaeedc1-2aab-4fa6-be55-94339891cec0"/>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Total veículo:]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="f803a801-6dd7-4dd2-abdb-03c18dfff702"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="GroupCategorias">
+		<groupExpression><![CDATA[$F{idcategoria}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement style="Detail" x="30" y="3" width="250" height="15" uuid="b5a2d179-7d21-4650-9af8-778bad87f063">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{idcategoria}  + ". " + $F{descricaocategoria}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="30" y="1" width="525" height="18" forecolor="rgba(255, 255, 255, 0.0)" backcolor="rgba(207, 207, 207, 0.15686275)" uuid="716b6622-8472-4c77-b7f4-b30c0d07ab10">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</rectangle>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="555" height="17" uuid="6f9c1004-6140-4588-9c4f-d75824835765">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Relatório Analítico de Movimentações]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="SubTitle" x="80" y="18" width="400" height="13" uuid="cfa155f4-5bb0-4a03-8b84-8c9892b6bab2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Período de " + new SimpleDateFormat("dd/MM/yyyy").format($P{dataInicial}) + " à " + new SimpleDateFormat("dd/MM/yyyy").format($P{dataFinal})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="33" width="555" height="1" uuid="544e89f7-0fd1-4142-aa23-e335e3be7007"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="50" y="17" width="120" height="15" uuid="88a9e25a-ec34-4653-867c-16b3b67c4192">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
+				</reportElement>
+				<text><![CDATA[Data do lançamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="459" y="17" width="95" height="15" uuid="d3fe3168-9357-4603-8982-ce9e8a027cbd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbaeedc1-2aab-4fa6-be55-94339891cec0"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Valor (R$)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="220" y="17" width="230" height="15" uuid="3c46e99b-5a47-4caf-9bd4-cf39d0df27ec">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
+				</reportElement>
+				<text><![CDATA[Descrição (opcional)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement style="Detail" x="50" y="1" width="160" height="15" uuid="d9347480-851a-45c8-8ab7-f4d105c55491">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{idlancamento} + ". " + new SimpleDateFormat("dd/MM/yyyy").format($F{datalancamento})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="460" y="1" width="95" height="15" forecolor="#188024" uuid="fec0fce2-6f86-4021-a71f-16cdaf6b8a1d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbaeedc1-2aab-4fa6-be55-94339891cec0"/>
+				</reportElement>
+				<textElement textAlignment="Right" markup="styled"/>
+				<textFieldExpression><![CDATA[($F{tipocategoria} == 0) ? "<style forecolor='#006400'>" + new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($F{valorlancamento})) + "</style>":"<style forecolor='#B22222'>"+	new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($F{valorlancamento})) + "</style>"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="220" y="1" width="230" height="15" uuid="eece5261-b160-424c-a7a4-9746f9e2fc7d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[($F{descricaolancamento} != null) ? $F{descricaolancamento} : ""]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="401e0e59-de38-4dd2-8257-418cb489177c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="338" y="8" width="122" height="15" uuid="50d070c9-86cf-4a15-aa2f-9196fb476d8c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbaeedc1-2aab-4fa6-be55-94339891cec0"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total geral:]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Detail" x="460" y="8" width="95" height="15" backcolor="rgba(255, 4, 0, 0.15686275)" uuid="2f0ff3dc-be46-4b35-a1d0-fa43bdc0d475">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbaeedc1-2aab-4fa6-be55-94339891cec0"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" markup="styled"/>
+				<textFieldExpression><![CDATA[($V{vSumTotal} >= 0) ? "<style backcolor='#FFFFFF'>" + new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($V{vSumTotal})) + "</style>" : "<style backcolor='#ffe5e5'>"+	new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($V{vSumTotal})) + "</style>"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="1" width="122" height="12" uuid="deb23d85-47bb-4de6-978e-113ff117188c"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER} + " de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="1" width="430" height="12" uuid="5a79d2a0-bcde-4ad5-adf0-c4eb2066f6dd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Relatório gerado em " + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + " às " + new SimpleDateFormat("HH:mm").format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
