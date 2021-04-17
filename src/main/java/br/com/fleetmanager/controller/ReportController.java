@@ -20,7 +20,7 @@ public class ReportController {
         this.reportName = reportName;
     }
 
-    public void GerarPDF() {
+    public void GeneratePDF() {
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(
                     getClass().getResourceAsStream(Constants.sJReportsFolder + this.reportName + ".jrxml"));

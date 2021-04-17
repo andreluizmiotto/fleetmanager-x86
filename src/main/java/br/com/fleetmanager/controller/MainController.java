@@ -91,7 +91,7 @@ public class MainController implements Initializable {
         if (rbSimplReport.isSelected())
             reportName = "syntheticReport";
         ReportController report = new ReportController(parameters, reportName);
-        report.GerarPDF();
+        report.GeneratePDF();
     };
 
     @Override
