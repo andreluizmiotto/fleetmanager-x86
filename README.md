@@ -1,21 +1,22 @@
-# FleetManager
-# Português
-Sistema de gerenciamento financeiro de veículos.
+# fleetmanager
+Fleet financial management application.
 
-Devido à simplicidade do sistema, optou-se por evitar a utilização de frameworks de automação.
+Due to the simplicity of the application, it was decided to avoid using frameworks.
 
-Tecnologias utilizadas:
+Technologies:
   * Java (SDK 15.0.1);
   * JavaFX;
   * PostgreSQL;
   * Apache Maven;
   * JasperReports;
 
-#---------------------------------------------------------------------------------------------------------------
-# English
-Fleet financial management application.
+# Start screen
+![image](https://user-images.githubusercontent.com/43590504/115099683-d9a82a00-9f0d-11eb-9d9b-078537846ff7.png)
 
-The application was developed in Java, with JavaFX and PostgreSQL database using JDBC connection.
+# Financial postings
+![image](https://user-images.githubusercontent.com/43590504/115100339-56d59e00-9f12-11eb-9aea-b656f920e6ae.png)
 
-Due to the simplicity of the application, it was decided to avoid using frameworks.
+# Analytic report
+![image](https://user-images.githubusercontent.com/43590504/115100972-f563fe00-9f16-11eb-85f8-e9b325224ffd.png)
+
 
