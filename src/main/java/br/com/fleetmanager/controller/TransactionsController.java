@@ -107,15 +107,6 @@ public class TransactionsController implements Initializable {
     private RadioButton rbListAll;
 
     @FXML
-    private Label lbIncomes;
-
-    @FXML
-    private Label lbExpenses;
-
-    @FXML
-    private Label lbBalance;
-
-    @FXML
     private TextField tfSumIncome;
 
     @FXML
@@ -151,6 +142,7 @@ public class TransactionsController implements Initializable {
         dtTransaction.setValue(transaction.getDate().toLocalDate());
         cbVehicle.setValue(transaction.getVehicle());
         cbCategory.setValue(transaction.getCategory());
+        tfDescription.setText(transaction.getDescription());
         tfValue.setAmount(transaction.getValue());
     };
 
