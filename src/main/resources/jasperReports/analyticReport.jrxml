@@ -198,7 +198,7 @@ ORDER BY veic.id, cat.id, lanc.id]]>
 				<text><![CDATA[Valor (R$)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="220" y="17" width="230" height="15" uuid="3c46e99b-5a47-4caf-9bd4-cf39d0df27ec">
+				<reportElement style="Column header" x="185" y="17" width="270" height="15" uuid="3c46e99b-5a47-4caf-9bd4-cf39d0df27ec">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
 				</reportElement>
 				<text><![CDATA[Descrição (opcional)]]></text>
@@ -208,10 +208,10 @@ ORDER BY veic.id, cat.id, lanc.id]]>
 	<detail>
 		<band height="18" splitType="Stretch">
 			<textField>
-				<reportElement style="Detail" x="50" y="1" width="160" height="15" uuid="d9347480-851a-45c8-8ab7-f4d105c55491">
+				<reportElement style="Detail" x="60" y="2" width="120" height="15" uuid="d9347480-851a-45c8-8ab7-f4d105c55491">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{idlancamento} + ". " + new SimpleDateFormat("dd/MM/yyyy").format($F{datalancamento})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{datalancamento})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Detail" x="460" y="1" width="95" height="15" forecolor="#188024" uuid="fec0fce2-6f86-4021-a71f-16cdaf6b8a1d">
@@ -221,7 +221,7 @@ ORDER BY veic.id, cat.id, lanc.id]]>
 				<textFieldExpression><![CDATA[($F{tipocategoria} == 0) ? "<style forecolor='#006400'>" + new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($F{valorlancamento})) + "</style>":"<style forecolor='#B22222'>"+	new java.text.DecimalFormat("R$ #,##0.00").format(Double.valueOf($F{valorlancamento})) + "</style>"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="220" y="1" width="230" height="15" uuid="eece5261-b160-424c-a7a4-9746f9e2fc7d">
+				<reportElement style="Detail" x="185" y="1" width="270" height="15" uuid="eece5261-b160-424c-a7a4-9746f9e2fc7d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c4c3b9a-a1b8-4036-b19d-a39b2e064abe"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[($F{descricaolancamento} != null) ? $F{descricaolancamento} : ""]]></textFieldExpression>
