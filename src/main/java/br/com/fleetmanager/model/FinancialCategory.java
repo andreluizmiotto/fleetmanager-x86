@@ -44,6 +44,6 @@ public class FinancialCategory extends ABaseModel {
 
     @Override
     public String toString() {
-        return id + " - " + description;
+        return id + ". " + description;
     }
 }

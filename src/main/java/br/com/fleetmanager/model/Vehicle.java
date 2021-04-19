@@ -38,6 +38,6 @@ public class Vehicle extends ABaseModel {
 
     @Override
     public String toString() {
-        return id + " - " + plate + " - " + description;
+        return id + ". " + plate + " - " + description;
     }
 }
