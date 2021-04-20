@@ -9,12 +9,12 @@ public class FXMLStaticFunctions {
 
     public static void clearErrorClass(TextField pTField) {
         if (!pTField.getText().isBlank())
-            pTField.getStyleClass().remove(cCssErrorFlag);
+            pTField.getStyleClass().removeAll(cCssErrorFlag);
     }
 
     public static void clearErrorClass(ComboBox pComboBox) {
         if ((pComboBox.getValue() != null))
-            pComboBox.getStyleClass().remove(cCssErrorFlag);
+            pComboBox.getStyleClass().removeAll(cCssErrorFlag);
     }
 
     public static boolean isRequiredFieldMissing(TextField pTField) {
