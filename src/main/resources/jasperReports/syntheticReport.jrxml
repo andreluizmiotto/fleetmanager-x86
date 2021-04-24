@@ -23,7 +23,7 @@ INNER JOIN categoriafinanceira cat
 	ON (lanc.idCategoria = cat.id)
 INNER JOIN veiculo veic
 	ON (lanc.idVeiculo = veic.id)
-WHERE (lanc.data BETWEEN $P{dataInicial} AND $P{dataFinal})
+WHERE ($X{BETWEEN, lanc.data, dataInicial, dataFinal})
 	AND (lanc.status = 1)
 GROUP BY veic.id, veic.placa, veic.descricao, cat.id, cat.descricao, cat.tipo
 ORDER BY veic.id]]>
