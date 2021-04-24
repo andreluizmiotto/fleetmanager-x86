@@ -7,12 +7,20 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.report.description" value="Analytic Report"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Postgres.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="233"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="756"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<parameter name="dataInicial" class="java.util.Date"/>
 	<parameter name="dataFinal" class="java.util.Date"/>
+	<parameter name="sqlFieldExtra" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqlValorExtra" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT veic.id AS idVeiculo, veic.placa AS placaVeiculo, veic.descricao AS descricaoVeiculo, 
 	cat.id AS idCategoria, cat.descricao AS descricaoCategoria, cat.tipo AS tipoCategoria,
@@ -22,8 +30,9 @@ INNER JOIN categoriafinanceira cat
 	ON (lanc.idCategoria = cat.id)
 INNER JOIN veiculo veic
 	ON (lanc.idVeiculo = veic.id)
-WHERE (lanc.data BETWEEN $P{dataInicial} AND $P{dataFinal})
-	AND (lanc.status = 1)
+WHERE ($X{BETWEEN, lanc.data, dataInicial, dataFinal})
+	AND (lanc.status = 1) 
+	AND ($P!{sqlFieldExtra} = $P!{sqlValorExtra})
 ORDER BY veic.id, cat.id, lanc.id]]>
 	</queryString>
 	<field name="idveiculo" class="java.lang.Integer">
