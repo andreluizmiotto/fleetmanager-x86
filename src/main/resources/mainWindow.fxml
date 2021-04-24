@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -40,52 +43,81 @@
                   <Button fx:id="btnVehicle" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="90.0" prefWidth="90.0" />
               </buttons>
             </ButtonBar>
-            <TitledPane animated="false" layoutX="952.0" layoutY="14.0" prefHeight="214.0" prefWidth="316.0" text="Relatórios" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="223.0" prefWidth="314.0">
-                     <children>
-                        <VBox layoutX="18.6" layoutY="19.6" prefHeight="195.0" prefWidth="295.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Accordion layoutX="656.0" layoutY="231.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+              <panes>
+                  <TitledPane animated="false" prefHeight="214.0" prefWidth="316.0" text="Relatório por período">
+                    <content>
+                      <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="223.0" prefWidth="314.0">
                            <children>
-                              <VBox prefHeight="38.0" prefWidth="390.0" spacing="3.0">
+                              <VBox layoutX="18.6" layoutY="19.6" prefHeight="195.0" prefWidth="295.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label text="Período:" />
-                                    <HBox prefHeight="10.0" prefWidth="390.0" spacing="5.0">
+                                    <VBox prefHeight="38.0" prefWidth="390.0" spacing="3.0">
                                        <children>
-                                          <VBox>
+                                          <Label text="Período:" />
+                                          <HBox prefHeight="10.0" prefWidth="390.0" spacing="5.0">
                                              <children>
-                                                <Label text="Inicial" />
-                                                <DatePicker fx:id="dtInitialDate" prefHeight="25.0" prefWidth="150.0" />
+                                                <VBox>
+                                                   <children>
+                                                      <Label text="Inicial" />
+                                                      <DatePicker fx:id="dtInitialDate" prefHeight="25.0" prefWidth="150.0" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox>
+                                                   <children>
+                                                      <Label text="Final" />
+                                                      <DatePicker fx:id="dtFinalDate" prefHeight="25.0" prefWidth="150.0" />
+                                                   </children>
+                                                </VBox>
                                              </children>
-                                          </VBox>
-                                          <VBox>
-                                             <children>
-                                                <Label text="Final" />
-                                                <DatePicker fx:id="dtFinalDate" prefHeight="25.0" prefWidth="150.0" />
-                                             </children>
-                                          </VBox>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <Separator prefWidth="200.0" />
+                                    <VBox prefHeight="45.0" prefWidth="390.0" spacing="3.0">
+                                       <children>
+                                          <Label text="Tipo de relatório" />
+                                          <RadioButton fx:id="rbSimplReport" mnemonicParsing="false" text="Sintético" />
+                                          <RadioButton fx:id="rbAnalyticReport" mnemonicParsing="false" text="Analítico" />
+                                       </children>
+                                    </VBox>
+                                    <HBox alignment="CENTER" prefHeight="7.0" prefWidth="390.0">
+                                       <children>
+                                          <Button fx:id="btnGenerateReport" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Gerar relatório" />
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
-                              <Separator prefWidth="200.0" />
-                              <VBox prefHeight="45.0" prefWidth="390.0" spacing="3.0">
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                <TitledPane animated="false" text="Histórico do veículo">
+                     <content>
+                        <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="130.0" prefWidth="314.0">
+                           <children>
+                              <VBox layoutX="18.6" layoutY="19.6" prefHeight="195.0" prefWidth="295.0" spacing="8.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label text="Tipo de relatório" />
-                                    <RadioButton fx:id="rbSimplReport" mnemonicParsing="false" text="Sintético" />
-                                    <RadioButton fx:id="rbAnalyticReport" mnemonicParsing="false" text="Analítico" />
+                                    <VBox prefHeight="38.0" prefWidth="390.0" spacing="3.0">
+                                       <children>
+                                          <Label text="Veículo:" />
+                                          <ComboBox fx:id="cbVehicleHist" prefHeight="25.0" prefWidth="300.0" />
+                                       </children>
+                                    </VBox>
+                                    <Separator prefWidth="200.0" />
+                                    <CheckBox fx:id="ckbGroupByCategory" mnemonicParsing="false" text="Agrupar lançamentos por categoria" />
+                                    <HBox alignment="CENTER" prefHeight="7.0" prefWidth="390.0">
+                                       <children>
+                                          <Button fx:id="btnGenerateHistoric" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Gerar histórico" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </VBox>
-                              <HBox alignment="CENTER" prefHeight="7.0" prefWidth="390.0">
-                                 <children>
-                                    <Button fx:id="btnGenerateReport" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Gerar relatório" />
-                                 </children>
-                              </HBox>
                            </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </TitledPane>
+                        </AnchorPane>
+                     </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
          </children></AnchorPane>
   </children>
 </VBox>
