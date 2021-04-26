@@ -13,13 +13,16 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<parameter name="dataInicial" class="java.util.Date"/>
-	<parameter name="dataFinal" class="java.util.Date"/>
+	<parameter name="dataInicial" class="java.util.Date" isForPrompting="false"/>
+	<parameter name="dataFinal" class="java.util.Date" isForPrompting="false"/>
 	<parameter name="sqlFieldExtra" class="java.lang.String">
 		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="sqlValorExtra" class="java.lang.String">
 		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="semPeriodo" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT veic.id AS idVeiculo, veic.placa AS placaVeiculo, veic.descricao AS descricaoVeiculo, 
@@ -178,7 +181,7 @@ ORDER BY veic.id, cat.id, lanc.id]]>
 				<textElement textAlignment="Center">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Período de " + new SimpleDateFormat("dd/MM/yyyy").format($P{dataInicial}) + " à " + new SimpleDateFormat("dd/MM/yyyy").format($P{dataFinal})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{semPeriodo} ? "Período: desde o início" : "Período de " + new SimpleDateFormat("dd/MM/yyyy").format($P{dataInicial}) + " à " + new SimpleDateFormat("dd/MM/yyyy").format($P{dataFinal})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
