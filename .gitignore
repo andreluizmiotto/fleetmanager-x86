@@ -148,5 +148,4 @@ buildNumber.properties
 # Jasper Reports
 /src/main/resources/.metadata
 /src/main/resources/jasperReports/bin/
-/src/main/resources/jasperReports/syntheticReport.jasper
-/src/main/resources/jasperReports/analyticReport.jasper
+/src/main/resources/jasperReports/*.jasper
