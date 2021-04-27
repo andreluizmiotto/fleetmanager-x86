@@ -17,6 +17,6 @@ Technologies:
 ![image](https://user-images.githubusercontent.com/43590504/115100339-56d59e00-9f12-11eb-9aea-b656f920e6ae.png)
 
 # Analytic report
-![image](https://user-images.githubusercontent.com/43590504/115100972-f563fe00-9f16-11eb-85f8-e9b325224ffd.png)
+[report.pdf](https://github.com/andreluizmiotto/fleetmanager/files/6381417/report.pdf)
 
 
