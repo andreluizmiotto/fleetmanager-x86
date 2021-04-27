@@ -10,6 +10,8 @@ Technologies:
   * Apache Maven;
   * JasperReports;
 
+Developed with IntelliJ IDEA Community.
+
 # Main screen
 ![image](https://user-images.githubusercontent.com/43590504/116173850-ade22c80-a6e3-11eb-92a3-34baf3799d30.png)
 
