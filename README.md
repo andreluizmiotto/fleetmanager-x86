@@ -10,8 +10,8 @@ Technologies:
   * Apache Maven;
   * JasperReports;
 
-# Start screen
-![image](https://user-images.githubusercontent.com/43590504/115099683-d9a82a00-9f0d-11eb-9d9b-078537846ff7.png)
+# Main screen
+![image](https://user-images.githubusercontent.com/43590504/116173850-ade22c80-a6e3-11eb-92a3-34baf3799d30.png)
 
 # Financial postings
 ![image](https://user-images.githubusercontent.com/43590504/115100339-56d59e00-9f12-11eb-9aea-b656f920e6ae.png)
