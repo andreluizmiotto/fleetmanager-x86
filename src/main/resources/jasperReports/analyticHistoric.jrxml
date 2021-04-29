@@ -13,8 +13,8 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<parameter name="dataInicial" class="java.util.Date" isForPrompting="false"/>
-	<parameter name="dataFinal" class="java.util.Date" isForPrompting="false"/>
+	<parameter name="dataInicial" class="java.util.Date"/>
+	<parameter name="dataFinal" class="java.util.Date"/>
 	<parameter name="sqlFieldExtra" class="java.lang.String">
 		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
 	</parameter>
@@ -33,7 +33,7 @@ INNER JOIN categoriafinanceira cat
 	ON (lanc.idCategoria = cat.id)
 INNER JOIN veiculo veic
 	ON (lanc.idVeiculo = veic.id)
-WHERE ($X{BETWEEN, lanc.data, dataInicial, dataFinal})
+WHERE ($X{BETWEEN, lanc.data, dataInicial, dataFinal} OR $X{EQUAL, lanc.data, dataInicial})
 	AND (lanc.status = 1) 
 	AND ($P!{sqlFieldExtra} = $P!{sqlValorExtra})
 ORDER BY veic.id, lanc.data, lanc.id]]>
