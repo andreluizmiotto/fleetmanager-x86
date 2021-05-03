@@ -4,7 +4,7 @@ Fleet financial management application.
 Due to the simplicity of the application, it was decided to avoid using frameworks.
 
 Technologies:
-  * Java (SDK 16.0.2);
+  * Java (SDK 16.0.1);
   * JavaFX;
   * PostgreSQL;
   * Apache Maven;
