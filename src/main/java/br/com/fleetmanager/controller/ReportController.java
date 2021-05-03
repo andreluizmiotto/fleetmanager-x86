@@ -1,6 +1,6 @@
 package br.com.fleetmanager.controller;
 
-import br.com.fleetmanager.Main;
+import br.com.fleetmanager.Launcher;
 import br.com.fleetmanager.connection.ConnectionFactory;
 import br.com.fleetmanager.utils.Constants;
 import javafx.application.HostServices;
@@ -35,7 +35,7 @@ public class ReportController {
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
 
-            HostServices hostServices = Main.getInstance().getHostServices();
+            HostServices hostServices = Launcher.getInstance().getHostServices();
             hostServices.showDocument(file.getAbsolutePath());
 
         } catch (JRException throwables) {
@@ -49,7 +49,7 @@ public class ReportController {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        return fileChooser.showSaveDialog(Main.getPrimaryStage());
+        return fileChooser.showSaveDialog(Launcher.getPrimaryStage());
     }
 
 }
