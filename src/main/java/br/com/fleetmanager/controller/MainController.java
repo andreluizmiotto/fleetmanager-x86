@@ -203,7 +203,7 @@ public class MainController implements Initializable {
             });
             cbVehicleHist.valueProperty().addListener((composant, oldValue, newValue) -> clearErrorClass(cbVehicleHist));
         } catch (SQLException throwables) {
-            throw new RuntimeException(throwables);
+            // does nothing
         }
     }
 

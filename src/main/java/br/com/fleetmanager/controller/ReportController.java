@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class ReportController {
 
-    private static final String destFileName = "report.pdf";
     private final Map<String, Object> parameters;
     private final String reportName;
 

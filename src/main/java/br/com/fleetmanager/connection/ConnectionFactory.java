@@ -6,10 +6,6 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    public ConnectionFactory() {
-
-    }
-
     public Connection getNewConnection() {
         try {
             return DriverManager.getConnection("jdbc:postgresql://localhost/camelo","postgres", "0098");
