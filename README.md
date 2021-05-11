@@ -6,7 +6,7 @@ Due to the simplicity of the application, it was decided to avoid using framewor
 Technologies:
   * Java (JDK 11.0.11 LTS);
   * JavaFX;
-  * PostgreSQL;
+  * SQLite;
   * Apache Maven;
   * JasperReports;
 
