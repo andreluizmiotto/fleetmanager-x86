@@ -1,9 +1,9 @@
 package br.com.fleetmanager.controller;
 
-import br.com.fleetmanager.connection.ConnectionFactory;
+import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.dao.VehicleDAO;
 import br.com.fleetmanager.model.Vehicle;
-import br.com.fleetmanager.utils.AutoCompleteCombobox;
+import br.com.fleetmanager.utils.fxmlFunctions.AutoCompleteCombobox;
 import br.com.fleetmanager.utils.FXMLEnum;
 import br.com.fleetmanager.utils.Functions;
 import javafx.collections.FXCollections;
@@ -26,8 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.isRequiredFieldMissing;
+import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
+import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.isRequiredFieldMissing;
 
 public class MainController implements Initializable {
 
@@ -148,6 +148,8 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        UpdateDatabase();
+
         menuItemVehicles.setOnAction(actionOpenVehicles);
         menuItemCategories.setOnAction(actionOpenCategories);
         menuItemTransactions.setOnAction(actionOpenFinancialTransactions);
@@ -182,6 +184,11 @@ public class MainController implements Initializable {
         rbSimplReport.setSelected(true);
 
         btnGenerateReport.setOnAction(actionGenerateReport);
+    }
+
+    private void UpdateDatabase() {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        connectionFactory.UpdateDatabase();
     }
 
     private void initializeCbVehicle() {
