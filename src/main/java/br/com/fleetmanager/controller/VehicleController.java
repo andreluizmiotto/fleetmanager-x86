@@ -1,9 +1,9 @@
 package br.com.fleetmanager.controller;
 
-import br.com.fleetmanager.connection.ConnectionFactory;
+import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.dao.VehicleDAO;
 import br.com.fleetmanager.model.Vehicle;
-import br.com.fleetmanager.utils.FXMLFunctions;
+import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import br.com.fleetmanager.utils.Functions;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -20,8 +20,8 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.isRequiredFieldMissing;
+import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
+import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.isRequiredFieldMissing;
 
 public class VehicleController implements Initializable {
 
@@ -139,8 +139,8 @@ public class VehicleController implements Initializable {
     }
 
     private void addButtonToTable() {
-        FXMLFunctions<Vehicle> fxmlFunctions = new FXMLFunctions<>();
-        colBtnRemove.setCellFactory(fxmlFunctions.getDeleteButton(new VehicleDAO()));
+        DeleteButtonOnTableColumn<Vehicle> deleteButtonOnTableColumn = new DeleteButtonOnTableColumn<>();
+        colBtnRemove.setCellFactory(deleteButtonOnTableColumn.getDeleteButton(new VehicleDAO()));
     }
 
     private boolean missingRequiredFields() {

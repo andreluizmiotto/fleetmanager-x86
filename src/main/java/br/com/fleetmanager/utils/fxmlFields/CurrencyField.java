@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
+import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
 
 // By https://itqna.net/questions/48929/textfield-javafx-dynamic-mask-monetary-values
 public class CurrencyField extends TextField {

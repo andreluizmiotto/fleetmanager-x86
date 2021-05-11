@@ -1,7 +1,7 @@
 package br.com.fleetmanager.controller;
 
 import br.com.fleetmanager.Launcher;
-import br.com.fleetmanager.connection.ConnectionFactory;
+import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.utils.Constants;
 import javafx.application.HostServices;
 import javafx.stage.FileChooser;

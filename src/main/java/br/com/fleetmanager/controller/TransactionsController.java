@@ -1,15 +1,15 @@
 package br.com.fleetmanager.controller;
 
-import br.com.fleetmanager.connection.ConnectionFactory;
+import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.dao.FinancialCategoryDAO;
 import br.com.fleetmanager.dao.FinancialTransactionDAO;
 import br.com.fleetmanager.dao.VehicleDAO;
 import br.com.fleetmanager.model.FinancialCategory;
 import br.com.fleetmanager.model.FinancialTransaction;
 import br.com.fleetmanager.model.Vehicle;
-import br.com.fleetmanager.utils.AutoCompleteCombobox;
+import br.com.fleetmanager.utils.fxmlFunctions.AutoCompleteCombobox;
 import br.com.fleetmanager.utils.Constants;
-import br.com.fleetmanager.utils.FXMLFunctions;
+import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import br.com.fleetmanager.utils.Functions;
 import br.com.fleetmanager.utils.fxmlFields.CurrencyField;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,8 +36,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.clearErrorClass;
-import static br.com.fleetmanager.utils.FXMLStaticFunctions.isRequiredFieldMissing;
+import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
+import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.isRequiredFieldMissing;
 
 public class TransactionsController implements Initializable {
 
@@ -311,8 +311,8 @@ public class TransactionsController implements Initializable {
     }
 
     private void addButtonToTable() {
-        FXMLFunctions<FinancialTransaction> fxmlFunctions = new FXMLFunctions<>();
-        colBtnRemove.setCellFactory(fxmlFunctions.getDeleteButton(new FinancialTransactionDAO()));
+        DeleteButtonOnTableColumn<FinancialTransaction> deleteButtonOnTableColumn = new DeleteButtonOnTableColumn<>();
+        colBtnRemove.setCellFactory(deleteButtonOnTableColumn.getDeleteButton(new FinancialTransactionDAO()));
     }
 
     private boolean missingRequiredFields() {

@@ -1,4 +1,4 @@
-package br.com.fleetmanager.utils;
+package br.com.fleetmanager.utils.fxmlFunctions;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
