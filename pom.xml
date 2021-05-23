@@ -12,8 +12,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
-        <javafx.version>11.0.2</javafx.version>
         <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
         <fully.qualified.main.class>br.com.fleetmanager.Main</fully.qualified.main.class>
     </properties>
@@ -23,17 +21,6 @@
     </organization>
 
     <dependencies>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
         <dependency>
             <groupId>org.xerial</groupId>
@@ -56,6 +43,13 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>jaspersoft-third-party</id>
+            <url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <plugin>
@@ -63,7 +57,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>${java.version}</release>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
 
@@ -75,7 +70,7 @@
                     <jlinkImageName>fleetmanager</jlinkImageName>
                     <launcher>launcher</launcher>
                     <mainClass>br.com.fleetmanager.Main</mainClass>
-<!--                    <executable>C:\Program Files (x86)\BellSoft\LibericaJDK-11\bin\java</executable>-->
+                    <executable>C:\Program Files (x86)\Java\jdk1.8.0_291\bin\java</executable>
                 </configuration>
             </plugin>
 
