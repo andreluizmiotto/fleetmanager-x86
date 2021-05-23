@@ -1,10 +1,10 @@
 # fleetmanager
-Fleet financial management application.
+Fleet financial management application for 32-bit windows.
 
 Due to the simplicity of the application, it was decided to avoid using frameworks.
 
 Technologies:
-  * Java (JDK 11.0.11 LTS);
+  * Java (JDK 1.8);
   * JavaFX;
   * SQLite;
   * Apache Maven;
