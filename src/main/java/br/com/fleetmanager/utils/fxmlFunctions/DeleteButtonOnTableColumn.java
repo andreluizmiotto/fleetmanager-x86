@@ -17,10 +17,10 @@ public class DeleteButtonOnTableColumn<T> {
 
     public Callback<TableColumn<T, Void>, TableCell<T, Void>> getDeleteButton(ABaseDAO objectDAO) {
 
-        return new Callback<>() {
+        return new Callback<TableColumn<T, Void>, TableCell<T, Void>>() {
             @Override
             public TableCell<T, Void> call(final TableColumn<T, Void> param) {
-                return new TableCell<>() {
+                return new TableCell<T, Void>() {
 
                     private final Button btn = new Button("", Functions.getImageView(getClass(), "trash_16px.png"));
 

@@ -8,7 +8,7 @@ public class FXMLStaticFunctions {
     private static final String cCssErrorFlag = "error";
 
     public static void clearErrorClass(TextField pTField) {
-        if (!pTField.getText().isBlank())
+        if (!pTField.getText().isEmpty())
             pTField.getStyleClass().removeAll(cCssErrorFlag);
     }
 
@@ -18,7 +18,7 @@ public class FXMLStaticFunctions {
     }
 
     public static boolean isRequiredFieldMissing(TextField pTField) {
-        if (pTField.getText().isBlank()) {
+        if (pTField.getText().isEmpty()) {
             pTField.getStyleClass().add("error");
             return true;
         }

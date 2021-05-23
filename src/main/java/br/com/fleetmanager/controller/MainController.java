@@ -195,7 +195,7 @@ public class MainController implements Initializable {
         try(Connection connection = new ConnectionFactory().getNewConnection()) {
             cbVehicleHist.itemsProperty().setValue(FXCollections.observableArrayList(new VehicleDAO(connection).ListAll()));
             new AutoCompleteCombobox<>(cbVehicleHist);
-            cbVehicleHist.setConverter(new StringConverter<>() {
+            cbVehicleHist.setConverter(new StringConverter<Vehicle>() {
                 @Override
                 public String toString(Vehicle obj) {
                     if (obj == null)

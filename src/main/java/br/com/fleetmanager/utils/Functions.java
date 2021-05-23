@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 public class Functions {
 
     public static boolean isNotNull(String value) {
-        return ((value != null) && (!value.isBlank()));
+        return ((value != null) && (!value.isEmpty()));
     }
 
     public static String formatMonetary(final String pValue, final int pDigit) {

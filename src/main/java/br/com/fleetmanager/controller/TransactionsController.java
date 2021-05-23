@@ -165,7 +165,7 @@ public class TransactionsController implements Initializable {
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        colDate.setCellFactory(column -> new TableCell<>() {
+        colDate.setCellFactory(column -> new TableCell<FinancialTransaction, Date>() {
             private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
             @Override
@@ -254,7 +254,7 @@ public class TransactionsController implements Initializable {
         try(Connection connection = new ConnectionFactory().getNewConnection()) {
             cbVehicle.itemsProperty().setValue(FXCollections.observableArrayList(new VehicleDAO(connection).ListAll()));
             new AutoCompleteCombobox<>(cbVehicle);
-            cbVehicle.setConverter(new StringConverter<>() {
+            cbVehicle.setConverter(new StringConverter<Vehicle>() {
                 @Override
                 public String toString(Vehicle obj) {
                     if (obj == null)
@@ -277,7 +277,7 @@ public class TransactionsController implements Initializable {
         try(Connection connection = new ConnectionFactory().getNewConnection()) {
             cbCategory.itemsProperty().setValue(FXCollections.observableArrayList(new FinancialCategoryDAO(connection).ListAll()));
             new AutoCompleteCombobox<>(cbCategory);
-            cbCategory.setConverter(new StringConverter<>() {
+            cbCategory.setConverter(new StringConverter<FinancialCategory>() {
                 @Override
                 public String toString(FinancialCategory obj) {
                     if (obj == null)
