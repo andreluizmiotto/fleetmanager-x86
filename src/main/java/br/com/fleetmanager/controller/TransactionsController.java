@@ -13,6 +13,7 @@ import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import br.com.fleetmanager.utils.Functions;
 import br.com.fleetmanager.utils.fxmlFields.CurrencyField;
 import br.com.fleetmanager.utils.fxmlFunctions.AutoCompleteCombobox;
+import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -22,7 +23,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -152,8 +152,7 @@ public class TransactionsController implements Initializable {
 
         transactionDAO = new FinancialTransactionDAO(new ConnectionFactory().getNewConnection());
 
-        initializeCbVehicle();
-        initializeCbCategory();
+        initializeComboBox();
 
         tfDescription.textProperty().addListener((observable, oldValue, newValue) -> {
             if (Functions.isNotNull(newValue) && ((newValue.length() > 99)))
@@ -251,47 +250,12 @@ public class TransactionsController implements Initializable {
         return sum;
     }
 
-    private void initializeCbVehicle() {
+    private void initializeComboBox() {
         try(Connection connection = new ConnectionFactory().getNewConnection()) {
-            cbVehicle.itemsProperty().setValue(FXCollections.observableArrayList(new VehicleDAO(connection).ListAll()));
-            new AutoCompleteCombobox<>(cbVehicle);
-            cbVehicle.setConverter(new StringConverter<Vehicle>() {
-                @Override
-                public String toString(Vehicle obj) {
-                    if (obj == null)
-                        return "";
-                    return obj.toString();
-                }
-
-                @Override
-                public Vehicle fromString(final String string) {
-                    return cbVehicle.getItems().stream().filter(obj -> obj.toString().equals(string)).findFirst().orElse(null);
-                }
-            });
-            cbVehicle.valueProperty().addListener((composant, oldValue, newValue) -> clearErrorClass(cbVehicle));
-        } catch (SQLException throwables) {
-            throw new RuntimeException(throwables);
-        }
-    }
-
-    private void initializeCbCategory() {
-        try(Connection connection = new ConnectionFactory().getNewConnection()) {
-            cbCategory.itemsProperty().setValue(FXCollections.observableArrayList(new FinancialCategoryDAO(connection).ListAll()));
-            new AutoCompleteCombobox<>(cbCategory);
-            cbCategory.setConverter(new StringConverter<FinancialCategory>() {
-                @Override
-                public String toString(FinancialCategory obj) {
-                    if (obj == null)
-                        return "";
-                    return obj.toString();
-                }
-
-                @Override
-                public FinancialCategory fromString(final String string) {
-                    return cbCategory.getItems().stream().filter(obj -> obj.toString().equals(string)).findFirst().orElse(null);
-                }
-            });
-            cbCategory.valueProperty().addListener((composant, oldValue, newValue) -> clearErrorClass(cbCategory));
+            new AutoCompleteCombobox<>(cbVehicle, FXCollections.observableArrayList(
+                    new VehicleDAO(connection).ListAll()));
+            new AutoCompleteCombobox<>(cbCategory, FXCollections.observableArrayList(
+                    new FinancialCategoryDAO(connection).ListAll()));
         } catch (SQLException throwables) {
             throw new RuntimeException(throwables);
         }

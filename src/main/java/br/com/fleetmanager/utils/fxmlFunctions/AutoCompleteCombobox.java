@@ -6,6 +6,9 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.StringConverter;
+
+import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
 
 /* By JulianG:
     https://stackoverflow.com/questions/19924852/autocomplete-combobox-in-javafx */
@@ -16,13 +19,28 @@ public class AutoCompleteCombobox<T> implements EventHandler<KeyEvent> {
     private boolean moveCaretToPos = false;
     private int caretPos;
 
-    public AutoCompleteCombobox(final ComboBox<T> comboBox) {
+    public AutoCompleteCombobox(final ComboBox<T> comboBox, final ObservableList<T> dataList) {
         this.comboBox = comboBox;
-        data = comboBox.getItems();
+        data = dataList;
 
+        this.comboBox.itemsProperty().setValue(dataList);
         this.comboBox.setEditable(true);
         this.comboBox.setOnKeyPressed(t -> comboBox.hide());
         this.comboBox.setOnKeyReleased(AutoCompleteCombobox.this);
+        this.comboBox.setConverter(new StringConverter<T>() {
+            @Override
+            public String toString(T obj) {
+                if (obj == null)
+                    return "";
+                return obj.toString();
+            }
+
+            @Override
+            public T fromString(final String string) {
+                return data.stream().filter(obj -> obj.toString().equals(string)).findFirst().orElse(null);
+            }
+        });
+        this.comboBox.valueProperty().addListener((composant, oldValue, newValue) -> clearErrorClass(comboBox));
     }
 
     @Override
