@@ -1,32 +1,30 @@
 package br.com.fleetmanager.controller;
 
 import br.com.fleetmanager.connection.implementation.ConnectionFactory;
+import br.com.fleetmanager.dao.FinancialCategoryDAO;
 import br.com.fleetmanager.dao.VehicleDAO;
+import br.com.fleetmanager.model.FinancialCategory;
 import br.com.fleetmanager.model.Vehicle;
-import br.com.fleetmanager.utils.fxmlFunctions.AutoCompleteCombobox;
 import br.com.fleetmanager.utils.FXMLEnum;
 import br.com.fleetmanager.utils.Functions;
+import br.com.fleetmanager.utils.fxmlFunctions.AutoCompleteCombobox;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
 import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.isRequiredFieldMissing;
 
 public class MainController implements Initializable {
@@ -62,6 +60,15 @@ public class MainController implements Initializable {
     private CheckBox ckbSelectVehicle;
 
     @FXML
+    private ComboBox<Vehicle> cbVehicleHist;
+
+    @FXML
+    private CheckBox ckbSelectCategory;
+
+    @FXML
+    private ComboBox<FinancialCategory> cbCategory;
+
+    @FXML
     private RadioButton rbSimplReport;
 
     @FXML
@@ -69,9 +76,6 @@ public class MainController implements Initializable {
 
     @FXML
     private Button btnGenerateReport;
-
-    @FXML
-    private ComboBox<Vehicle> cbVehicleHist;
 
     @FXML
     private CheckBox ckbGroupByCategory;
@@ -104,6 +108,18 @@ public class MainController implements Initializable {
         cbVehicleHist.setDisable(!ckbSelectVehicle.isSelected());
     };
 
+    final EventHandler<ActionEvent> actionEnableCbCategory = (ActionEvent event) -> {
+        cbCategory.setDisable(!ckbSelectCategory.isSelected());
+        rbSimplReport.setDisable(false);
+        ckbGroupByCategory.setDisable(!rbAnalyticReport.isSelected());
+        if (ckbSelectCategory.isSelected()) {
+            rbAnalyticReport.setSelected(true);
+            rbSimplReport.setDisable(true);
+            ckbGroupByCategory.setDisable(true);
+            ckbGroupByCategory.setSelected(false);
+        }
+    };
+
     final EventHandler<ActionEvent> actionEnablePeriod = (ActionEvent event) -> {
         dtInitialDate.setDisable(ckbSinceTheBeginning.isSelected());
         dtFinalDate.setDisable(ckbSinceTheBeginning.isSelected());
@@ -116,6 +132,9 @@ public class MainController implements Initializable {
             if (ckbSelectVehicle.isSelected() && (isRequiredFieldMissing(cbVehicleHist)))
                 return;
 
+            if (ckbSelectCategory.isSelected() && (isRequiredFieldMissing(cbCategory)))
+                return;
+
             Map<String, Object> parameters = new HashMap<>();
             if (ckbSinceTheBeginning.isSelected()) {
                 parameters.put("dataInicial", Date.from(LocalDate.of(2000, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -123,7 +142,7 @@ public class MainController implements Initializable {
                 parameters.put("semPeriodo", true);
             } else {
                 parameters.put("dataInicial", Date.from(dtInitialDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                parameters.put("dataFinal", Date.from(dtFinalDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                parameters.put("dataFinal", Date.from(dtFinalDate.getValue().atTime(LocalTime.MAX).toInstant(ZoneOffset.MAX)));
                 parameters.put("semPeriodo", false);
             }
 
@@ -132,10 +151,15 @@ public class MainController implements Initializable {
                 parameters.put("sqlValorExtra", cbVehicleHist.getValue().getId());
             }
 
+            if (ckbSelectCategory.isSelected()) {
+                parameters.put("sqlFieldExtra2", "idCategoria");
+                parameters.put("sqlValorExtra2", cbCategory.getValue().getId());
+            }
+
             String reportName = "syntheticReport";
             if (rbAnalyticReport.isSelected()) {
                 reportName = "analyticHistoric";
-                if (ckbGroupByCategory.isSelected())
+                if (ckbGroupByCategory.isSelected() || ckbSelectCategory.isSelected())
                     reportName = "analyticReport";
             }
 
@@ -171,14 +195,19 @@ public class MainController implements Initializable {
         ckbSinceTheBeginning.setOnAction(actionEnablePeriod);
         ckbSinceTheBeginning.setSelected(false);
 
-        initializeCbVehicle();
-        cbVehicleHist.setDisable(true);
+        initializeComboBox();
+
         ckbSelectVehicle.setOnAction(actionEnableCbVehicle);
         ckbSelectVehicle.setSelected(false);
+        ckbSelectCategory.setOnAction(actionEnableCbCategory);
+        ckbSelectCategory.setSelected(false);
 
         final ToggleGroup toggleGroup = new ToggleGroup();
-        toggleGroup.selectedToggleProperty().addListener(observable ->
-                ckbGroupByCategory.setDisable(rbSimplReport.isSelected()));
+        toggleGroup.selectedToggleProperty().addListener(observable -> {
+            ckbGroupByCategory.setDisable(rbSimplReport.isSelected());
+            if (ckbGroupByCategory.isDisabled())
+                ckbGroupByCategory.setSelected(false);
+        });
         rbSimplReport.setToggleGroup(toggleGroup);
         rbAnalyticReport.setToggleGroup(toggleGroup);
         rbSimplReport.setSelected(true);
@@ -191,26 +220,17 @@ public class MainController implements Initializable {
         connectionFactory.UpdateDatabase();
     }
 
-    private void initializeCbVehicle() {
+    private void initializeComboBox() {
         try(Connection connection = new ConnectionFactory().getNewConnection()) {
-            cbVehicleHist.itemsProperty().setValue(FXCollections.observableArrayList(new VehicleDAO(connection).ListAll()));
-            new AutoCompleteCombobox<>(cbVehicleHist);
-            cbVehicleHist.setConverter(new StringConverter<Vehicle>() {
-                @Override
-                public String toString(Vehicle obj) {
-                    if (obj == null)
-                        return "";
-                    return obj.toString();
-                }
+            new AutoCompleteCombobox<>(cbVehicleHist, FXCollections.observableArrayList(
+                    new VehicleDAO(connection).ListAll()));
+            cbVehicleHist.setDisable(true);
 
-                @Override
-                public Vehicle fromString(final String string) {
-                    return cbVehicleHist.getItems().stream().filter(obj -> obj.toString().equals(string)).findFirst().orElse(null);
-                }
-            });
-            cbVehicleHist.valueProperty().addListener((composant, oldValue, newValue) -> clearErrorClass(cbVehicleHist));
+            new AutoCompleteCombobox<>(cbCategory, FXCollections.observableArrayList(
+                    new FinancialCategoryDAO(connection).ListAll()));
+            cbCategory.setDisable(true);
         } catch (SQLException throwables) {
-            // does nothing
+            throw new RuntimeException(throwables);
         }
     }
 

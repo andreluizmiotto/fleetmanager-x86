@@ -4,7 +4,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml" fx:controller="br.com.fleetmanager.controller.TransactionsController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fleetmanager.controller.TransactionsController">
    <children>
       <TableView fx:id="tableView" layoutY="35.0" prefHeight="596.0" prefWidth="1270.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0">
          <columns>
@@ -26,13 +26,13 @@
       </TableView>
       <HBox alignment="BASELINE_LEFT" prefHeight="34.0" prefWidth="657.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TextField fx:id="tfId" disable="true" editable="false" prefHeight="25.0" prefWidth="56.0" promptText="Id" />
+            <TextField fx:id="tfId" disable="true" editable="false" prefHeight="25.0" prefWidth="64.0" promptText="Id" />
             <DatePicker fx:id="dtTransaction" prefHeight="25.0" prefWidth="150.0" />
-            <ComboBox fx:id="cbVehicle" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="300.0" promptText="Veículo" HBox.hgrow="SOMETIMES" />
-            <ComboBox fx:id="cbCategory" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="200.0" promptText="Categoria" HBox.hgrow="SOMETIMES" />
-            <TextField fx:id="tfDescription" prefHeight="25.0" prefWidth="268.0" promptText="Descrição (opcional)" HBox.hgrow="ALWAYS" />
-<!--            <TextField fx:id="tfValue" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="160.0" promptText="Valor (R$)" />-->
-            <CurrencyField fx:id="tfValue" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="160.0" promptText="Valor (R$)" />
+            <ComboBox fx:id="cbVehicle" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="165.0" promptText="Veículo" HBox.hgrow="SOMETIMES" />
+            <ComboBox fx:id="cbCategory" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="152.0" promptText="Categoria" HBox.hgrow="SOMETIMES" />
+            <TextField fx:id="tfDescription" prefHeight="25.0" prefWidth="153.0" promptText="Descrição (opcional)" HBox.hgrow="ALWAYS" />
+<!--            <TextField fx:id="tfValue" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="115.0" promptText="Valor (R$)" />-->
+            <CurrencyField fx:id="tfValue" alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="115.0" promptText="Valor (R$)" />
             <Button fx:id="btnSave" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="53.0" text="Salvar" />
             <Button fx:id="btnClear" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="53.0" text="Limpar" />
          </children>

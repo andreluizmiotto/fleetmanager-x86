@@ -4,9 +4,14 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[bGFuY2ZpbmFuY2Vpcm8gLDExNSwxNSw5MTEyN2U5MS1kZDgzLTQ5NzYtYmJmNi04ODJiMGFiMTY1
+ODI7Y2F0ZWdvcmlhZmluYW5jZWlyYSAsMjUzLDE1LDcyYzM1ZDQzLTJhNGQtNDE3Ny1hMmU5LTg2
+Y2YxMDJhMGI3ZTt2ZWljdWxvICwxNSwxNSwyNTY1MjVkZi1mNzAwLTRkZjktYThlOS05Zjk4ZjU4
+YTk0Mjk7]]>
+	</property>
 	<property name="com.jaspersoft.studio.report.description" value="Analytic Report"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Postgres.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQLite.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="233"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="756"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
@@ -24,6 +29,12 @@
 	<parameter name="semPeriodo" class="java.lang.Boolean">
 		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
 	</parameter>
+	<parameter name="sqlFieldExtra2" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sqlValorExtra2" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
 		<![CDATA[SELECT veic.id AS idVeiculo, veic.placa AS placaVeiculo, veic.descricao AS descricaoVeiculo, 
 	cat.id AS idCategoria, cat.descricao AS descricaoCategoria, cat.tipo AS tipoCategoria,
@@ -36,6 +47,7 @@ INNER JOIN veiculo veic
 WHERE ($X{BETWEEN, lanc.data, dataInicial, dataFinal} OR $X{EQUAL, lanc.data, dataInicial})
 	AND (lanc.status = 1) 
 	AND ($P!{sqlFieldExtra} = $P!{sqlValorExtra})
+	AND ($P!{sqlFieldExtra2} = $P!{sqlValorExtra2})
 ORDER BY veic.id, cat.id, lanc.id]]>
 	</queryString>
 	<field name="idveiculo" class="java.lang.Integer">
