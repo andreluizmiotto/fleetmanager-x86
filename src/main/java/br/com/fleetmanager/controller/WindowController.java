@@ -24,7 +24,7 @@ public class WindowController {
         Parent root = loadFXML(FXMLEnum.getFXMLFile(pFXML));
         pStage.setTitle(FXMLEnum.getFXMLTittle(pFXML));
         pStage.getIcons().add(new Image(Objects.requireNonNull(Launcher.class.getResourceAsStream(Constants.sIconsFolder + FXMLEnum.getFXMLIcon(pFXML)))));
-        Scene scene = new Scene(root, 1280, 720);
+        Scene scene = new Scene(root, 900, 600);
         scene.getStylesheets().add(Objects.requireNonNull(Launcher.class.getResource(Constants.sStylesFolder + "FXMLStyles.css")).toExternalForm());
         pStage.setScene(scene);
         pStage.show();
