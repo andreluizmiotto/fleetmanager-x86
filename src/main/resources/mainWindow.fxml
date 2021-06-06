@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml" fx:controller="br.com.fleetmanager.controller.MainController">
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fleetmanager.controller.MainController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
          <menus>
@@ -29,7 +29,7 @@
                   <Button fx:id="btnVehicle" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="90.0" prefWidth="90.0" />
               </buttons>
             </ButtonBar>
-            <TitledPane animated="false" prefHeight="335.0" prefWidth="316.0" text="Relatórios" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <TitledPane animated="false" prefHeight="400.0" prefWidth="316.0" text="Relatórios" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
               <content>
                 <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="364.0" prefWidth="314.0">
                      <children>
@@ -69,6 +69,22 @@
                                              </HBox.margin>
                                           </CheckBox>
                                           <ComboBox fx:id="cbVehicleHist" prefHeight="25.0" prefWidth="300.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Separator prefWidth="200.0" />
+                              <VBox prefHeight="0.0" prefWidth="295.0" spacing="3.0">
+                                 <children>
+                                    <Label text="Categoria:" />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <CheckBox fx:id="ckbSelectCategory" mnemonicParsing="false">
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
+                                          </CheckBox>
+                                          <ComboBox fx:id="cbCategory" prefHeight="25.0" prefWidth="300.0" />
                                        </children>
                                     </HBox>
                                  </children>

@@ -12,6 +12,7 @@ import br.com.fleetmanager.utils.Constants;
 import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import br.com.fleetmanager.utils.Functions;
 import br.com.fleetmanager.utils.fxmlFields.CurrencyField;
+import br.com.fleetmanager.utils.fxmlFunctions.AutoCompleteCombobox;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
