@@ -116,6 +116,9 @@ public class TransactionsController implements Initializable {
     @FXML
     private TextField tfBalance;
 
+    @FXML
+    private CheckBox ckbListTransactionsFromSelectedVehicle;
+
     final EventHandler<ActionEvent> btnSaveHandler = (ActionEvent event) -> {
 
         if (missingRequiredFields())
@@ -220,12 +223,11 @@ public class TransactionsController implements Initializable {
     }
 
     private void listTransactions() {
-        List<FinancialTransaction> transactions;
-        if (rbListAll.isSelected())
-            transactions = transactionDAO.ListAll();
-        else
-            transactions = transactionDAO.ListByPeriod(
-                    Date.valueOf(dtInitialDate.getValue()), Date.valueOf(dtFinalDate.getValue()));
+        List<FinancialTransaction> transactions = transactionDAO.ListByPeriod(
+                (rbListAll.isSelected() ? null : Date.valueOf(dtInitialDate.getValue())),
+                (rbListAll.isSelected() ? null : Date.valueOf(dtFinalDate.getValue())),
+                (ckbListTransactionsFromSelectedVehicle.isSelected() ? cbVehicle.getValue().getId() : 0)
+        );
         tableView.setItems(FXCollections.observableArrayList(transactions));
         double sumIncomes = sumTransactions(transactions.stream().filter(
                                             obj -> obj.getCategory().getType() == Constants.cIncome)
