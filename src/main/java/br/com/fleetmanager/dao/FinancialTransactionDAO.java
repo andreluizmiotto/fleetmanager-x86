@@ -71,12 +71,18 @@ public class FinancialTransactionDAO extends ABaseDAO {
     }
 
     @Override
-    public List<FinancialTransaction> ListByPeriod(Date dtIni, Date dtFin) {
+    public List ListByPeriod(Date dtIni, Date dtFin) {
+        return ListByPeriod(dtIni, dtFin, 0);
+    }
+
+    public List<FinancialTransaction> ListByPeriod(Date dtIni, Date dtFin, int vehicleId) {
         List<FinancialTransaction> transactions = new ArrayList<>();
         String sql = "SELECT id, status, data, idveiculo, idcategoria, valor, descricao FROM " + cTableName +
                      " WHERE (status = ?) ";
         if ((dtIni != null) && (dtFin != null))
             sql += " and (data between ? and ?) ";
+        if (vehicleId > 0)
+            sql += " and (idveiculo = ?) ";
         sql += "ORDER BY id ASC";
 
         try(PreparedStatement pStmt = connection.prepareStatement(sql)) {
@@ -85,6 +91,8 @@ public class FinancialTransactionDAO extends ABaseDAO {
                 pStmt.setDate(2, dtIni);
                 pStmt.setDate(3, dtFin);
             }
+            if (vehicleId > 0)
+                pStmt.setInt(4, vehicleId);
             pStmt.execute();
 
             try(ResultSet rSet = pStmt.getResultSet()) {
