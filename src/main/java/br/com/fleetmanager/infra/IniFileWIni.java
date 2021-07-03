@@ -11,7 +11,7 @@ public class IniFileWIni {
 
     public IniFileWIni(String pPathName) {
         try{
-            File file = new File(pPathName + ".ini");
+            File file = new File("../" + pPathName + ".ini");
             if (!file.exists())
                 file.createNewFile();
             this.iniFile = new Wini(file);
