@@ -2,11 +2,10 @@ package br.com.fleetmanager.controller;
 
 import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.dao.FinancialCategoryDAO;
-import br.com.fleetmanager.interfaces.controller.IControllerBase;
 import br.com.fleetmanager.interfaces.controller.IControllerInputFields;
 import br.com.fleetmanager.model.FinancialCategory;
-import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import br.com.fleetmanager.utils.Functions;
+import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
