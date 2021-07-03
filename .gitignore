@@ -149,3 +149,4 @@ buildNumber.properties
 /src/main/resources/.metadata
 /src/main/resources/jasperReports/bin/
 /src/main/resources/jasperReports/*.jasper
+/preferences.ini
