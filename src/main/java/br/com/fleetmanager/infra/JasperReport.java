@@ -1,4 +1,4 @@
-package br.com.fleetmanager.controller;
+package br.com.fleetmanager.infra;
 
 import br.com.fleetmanager.Launcher;
 import br.com.fleetmanager.connection.implementation.ConnectionFactory;
@@ -10,12 +10,12 @@ import net.sf.jasperreports.engine.*;
 import java.io.File;
 import java.util.Map;
 
-public class ReportController {
+public class JasperReport {
 
     private final Map<String, Object> parameters;
     private final String reportName;
 
-    public ReportController(Map<String, Object> parameters, String reportName) {
+    public JasperReport(Map<String, Object> parameters, String reportName) {
         this.parameters = parameters;
         this.reportName = reportName;
     }
@@ -26,7 +26,7 @@ public class ReportController {
             if (file == null)
                 return;
 
-            JasperReport jasperReport = JasperCompileManager.compileReport(
+            net.sf.jasperreports.engine.JasperReport jasperReport = JasperCompileManager.compileReport(
                     getClass().getResourceAsStream(Constants.sJReportsFolder + this.reportName + ".jrxml"));
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
