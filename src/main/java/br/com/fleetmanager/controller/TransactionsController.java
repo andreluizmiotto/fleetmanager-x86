@@ -4,6 +4,8 @@ import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.dao.FinancialCategoryDAO;
 import br.com.fleetmanager.dao.FinancialTransactionDAO;
 import br.com.fleetmanager.dao.VehicleDAO;
+import br.com.fleetmanager.infra.IniFileWIni;
+import br.com.fleetmanager.interfaces.controller.IControllerInputFields;
 import br.com.fleetmanager.model.FinancialCategory;
 import br.com.fleetmanager.model.FinancialTransaction;
 import br.com.fleetmanager.model.Vehicle;
@@ -12,8 +14,6 @@ import br.com.fleetmanager.utils.Constants;
 import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import br.com.fleetmanager.utils.Functions;
 import br.com.fleetmanager.utils.fxmlFields.CurrencyField;
-import br.com.fleetmanager.utils.fxmlFunctions.AutoCompleteCombobox;
-import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
 import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.isRequiredFieldMissing;
 
-public class TransactionsController implements Initializable {
+public class TransactionsController implements Initializable, IControllerInputFields {
 
     private FinancialTransactionDAO transactionDAO;
 
@@ -156,6 +156,7 @@ public class TransactionsController implements Initializable {
         transactionDAO = new FinancialTransactionDAO(new ConnectionFactory().getNewConnection());
 
         initializeComboBox();
+        LoadPreferences();
 
         tfDescription.textProperty().addListener((observable, oldValue, newValue) -> {
             if (Functions.isNotNull(newValue) && ((newValue.length() > 99)))
@@ -226,7 +227,8 @@ public class TransactionsController implements Initializable {
         List<FinancialTransaction> transactions = transactionDAO.ListByPeriod(
                 (rbListAll.isSelected() ? null : Date.valueOf(dtInitialDate.getValue())),
                 (rbListAll.isSelected() ? null : Date.valueOf(dtFinalDate.getValue())),
-                (ckbListTransactionsFromSelectedVehicle.isSelected() ? cbVehicle.getValue().getId() : 0)
+                (ckbListTransactionsFromSelectedVehicle.isSelected() ?
+                        (cbVehicle.getValue() != null ? cbVehicle.getValue().getId() : 0) : 0)
         );
         tableView.setItems(FXCollections.observableArrayList(transactions));
         double sumIncomes = sumTransactions(transactions.stream().filter(
@@ -263,12 +265,22 @@ public class TransactionsController implements Initializable {
         }
     }
 
-    private void clearFields(boolean pAllFields) {
+    private void addButtonToTable() {
+        DeleteButtonOnTableColumn<FinancialTransaction> deleteButtonOnTableColumn = new DeleteButtonOnTableColumn<>();
+        colBtnRemove.setCellFactory(deleteButtonOnTableColumn.getDeleteButton(new FinancialTransactionDAO()));
+    }
+
+    @Override
+    public boolean missingRequiredFields() {
+        boolean isMissing = isRequiredFieldMissing(cbVehicle);
+        isMissing = isRequiredFieldMissing(cbCategory) || isMissing;
+        isMissing = isRequiredFieldMissing(tfValue) || isMissing;
+        return isMissing;
+    }
+
+    @Override
+    public void clearFields() {
         tfId.clear();
-        if (pAllFields) {
-            dtTransaction.setValue(LocalDate.from(LocalDateTime.now()));
-            cbVehicle.setValue(null);
-        }
         cbCategory.setValue(null);
         tfValue.clear();
         tfDescription.clear();
@@ -277,15 +289,31 @@ public class TransactionsController implements Initializable {
         clearErrorClass(tfValue);
     }
 
-    private void addButtonToTable() {
-        DeleteButtonOnTableColumn<FinancialTransaction> deleteButtonOnTableColumn = new DeleteButtonOnTableColumn<>();
-        colBtnRemove.setCellFactory(deleteButtonOnTableColumn.getDeleteButton(new FinancialTransactionDAO()));
+    public void clearFields(boolean pAllFields) {
+        clearFields();
+        if (pAllFields) {
+            dtTransaction.setValue(LocalDate.from(LocalDateTime.now()));
+            cbVehicle.setValue(null);
+        }
     }
 
-    private boolean missingRequiredFields() {
-        boolean isMissing = isRequiredFieldMissing(cbVehicle);
-        isMissing = isRequiredFieldMissing(cbCategory) || isMissing;
-        isMissing = isRequiredFieldMissing(tfValue) || isMissing;
-        return isMissing;
+    @Override
+    public void StorePreferences() {
+        new IniFileWIni(Constants.sPreferencesFile)
+                .put(this.getClass().getSimpleName(),
+                     this.ckbListTransactionsFromSelectedVehicle.getId(),
+                     this.ckbListTransactionsFromSelectedVehicle.isSelected())
+                .store();
     }
+
+    @Override
+    public void LoadPreferences() {
+        boolean isSelected = new IniFileWIni(Constants.sPreferencesFile)
+                .getIniFile()
+                .get(this.getClass().getSimpleName(),
+                     this.ckbListTransactionsFromSelectedVehicle.getId(),
+                     boolean.class);
+        this.ckbListTransactionsFromSelectedVehicle.setSelected(isSelected);
+    }
+
 }
