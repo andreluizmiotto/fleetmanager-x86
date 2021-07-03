@@ -11,4 +11,5 @@ public final class Constants {
     public static final String sStylesFolder = "/styles/";
     public static final String sJReportsFolder = "/jasperReports/";
     public static final String sDataBaseFolder = "/database/";
+    public static final String sPreferencesFile = "preferences";
 }
