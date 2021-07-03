@@ -2,6 +2,8 @@ package br.com.fleetmanager.controller;
 
 import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.dao.FinancialCategoryDAO;
+import br.com.fleetmanager.interfaces.controller.IControllerBase;
+import br.com.fleetmanager.interfaces.controller.IControllerInputFields;
 import br.com.fleetmanager.model.FinancialCategory;
 import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import br.com.fleetmanager.utils.Functions;
@@ -20,7 +22,7 @@ import java.util.ResourceBundle;
 import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
 import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.isRequiredFieldMissing;
 
-public class FinancialCategoryController implements Initializable {
+public class FinancialCategoryController implements Initializable, IControllerInputFields {
 
     private FinancialCategoryDAO financialCategoryDAO;
 
@@ -110,20 +112,29 @@ public class FinancialCategoryController implements Initializable {
         tableView.setItems(FXCollections.observableArrayList(financialCategoryDAO.ListAll()));
     }
 
-    private void clearFields() {
-        tfId.clear();
-        tfCategory.clear();
-        cbType.getSelectionModel().select(-1);
-    }
-
     private void addButtonToTable() {
         DeleteButtonOnTableColumn<FinancialCategory> deleteButtonOnTableColumn = new DeleteButtonOnTableColumn<>();
         colBtnRemove.setCellFactory(deleteButtonOnTableColumn.getDeleteButton(financialCategoryDAO));
     }
 
-    private boolean missingRequiredFields() {
+    @Override
+    public boolean missingRequiredFields() {
         boolean isMissing = isRequiredFieldMissing(tfCategory);
         isMissing = isRequiredFieldMissing(cbType) || isMissing;
         return isMissing;
     }
+
+    @Override
+    public void clearFields() {
+        tfId.clear();
+        tfCategory.clear();
+        cbType.getSelectionModel().select(-1);
+    }
+
+    @Override
+    public void StorePreferences() {}
+
+    @Override
+    public void LoadPreferences() {}
+
 }

@@ -2,6 +2,7 @@ package br.com.fleetmanager.controller;
 
 import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.dao.VehicleDAO;
+import br.com.fleetmanager.interfaces.controller.IControllerInputFields;
 import br.com.fleetmanager.model.Vehicle;
 import br.com.fleetmanager.utils.fxmlFunctions.DeleteButtonOnTableColumn;
 import br.com.fleetmanager.utils.Functions;
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
 import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.clearErrorClass;
 import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.isRequiredFieldMissing;
 
-public class VehicleController implements Initializable {
+public class VehicleController implements Initializable, IControllerInputFields {
 
     private VehicleDAO vehicleDAO;
 
@@ -129,7 +130,20 @@ public class VehicleController implements Initializable {
         tableViewVehicle.setItems(FXCollections.observableArrayList(vehicleDAO.ListAll()));
     }
 
-    private void clearFields() {
+    private void addButtonToTable() {
+        DeleteButtonOnTableColumn<Vehicle> deleteButtonOnTableColumn = new DeleteButtonOnTableColumn<>();
+        colBtnRemove.setCellFactory(deleteButtonOnTableColumn.getDeleteButton(new VehicleDAO()));
+    }
+
+    @Override
+    public boolean missingRequiredFields() {
+        boolean isMissing = isRequiredFieldMissing(tfPlate);
+        isMissing = isRequiredFieldMissing(tfVehicle) || isMissing;
+        return isMissing;
+    }
+
+    @Override
+    public void clearFields() {
         tfId.clear();
         tfVehicle.clear();
         tfPlate.clear();
@@ -138,15 +152,9 @@ public class VehicleController implements Initializable {
         clearErrorClass(tfVehicle);
     }
 
-    private void addButtonToTable() {
-        DeleteButtonOnTableColumn<Vehicle> deleteButtonOnTableColumn = new DeleteButtonOnTableColumn<>();
-        colBtnRemove.setCellFactory(deleteButtonOnTableColumn.getDeleteButton(new VehicleDAO()));
-    }
+    @Override
+    public void StorePreferences() {}
 
-    private boolean missingRequiredFields() {
-        boolean isMissing = isRequiredFieldMissing(tfPlate);
-        isMissing = isRequiredFieldMissing(tfVehicle) || isMissing;
-        return isMissing;
-    }
-
+    @Override
+    public void LoadPreferences() {}
 }

@@ -3,6 +3,9 @@ package br.com.fleetmanager.controller;
 import br.com.fleetmanager.connection.implementation.ConnectionFactory;
 import br.com.fleetmanager.dao.FinancialCategoryDAO;
 import br.com.fleetmanager.dao.VehicleDAO;
+import br.com.fleetmanager.infra.JasperReport;
+import br.com.fleetmanager.infra.WindowHandler;
+import br.com.fleetmanager.interfaces.controller.IControllerBase;
 import br.com.fleetmanager.model.FinancialCategory;
 import br.com.fleetmanager.model.Vehicle;
 import br.com.fleetmanager.utils.FXMLEnum;
@@ -27,7 +30,7 @@ import java.util.ResourceBundle;
 
 import static br.com.fleetmanager.utils.fxmlFunctions.FXMLStaticFunctions.isRequiredFieldMissing;
 
-public class MainController implements Initializable {
+public class MainController implements Initializable, IControllerBase {
 
     @FXML
     private MenuItem menuItemVehicles;
@@ -82,7 +85,7 @@ public class MainController implements Initializable {
 
     final EventHandler<ActionEvent> actionOpenVehicles = (ActionEvent event) -> {
         try {
-            WindowController.openWindow(FXMLEnum.Enum.VEHICLE);
+            WindowHandler.openWindow(FXMLEnum.Enum.VEHICLE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +93,7 @@ public class MainController implements Initializable {
 
     final EventHandler<ActionEvent> actionOpenCategories = (ActionEvent event) -> {
         try {
-            WindowController.openWindow(FXMLEnum.Enum.FINANCIALCATEGORY);
+            WindowHandler.openWindow(FXMLEnum.Enum.FINANCIALCATEGORY);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +101,7 @@ public class MainController implements Initializable {
 
     final EventHandler<ActionEvent> actionOpenFinancialTransactions = (ActionEvent event) -> {
         try {
-            WindowController.openWindow(FXMLEnum.Enum.FINANCIALTRANSACTION);
+            WindowHandler.openWindow(FXMLEnum.Enum.FINANCIALTRANSACTION);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,7 +166,7 @@ public class MainController implements Initializable {
                     reportName = "analyticReport";
             }
 
-            ReportController report = new ReportController(parameters, reportName);
+            JasperReport report = new JasperReport(parameters, reportName);
             report.GeneratePDF();
         } finally {
             btnGenerateReport.setDisable(false);
@@ -234,4 +237,9 @@ public class MainController implements Initializable {
         }
     }
 
+    @Override
+    public void StorePreferences() {}
+
+    @Override
+    public void LoadPreferences() {}
 }
