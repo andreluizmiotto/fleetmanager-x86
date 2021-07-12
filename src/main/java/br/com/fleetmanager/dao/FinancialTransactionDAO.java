@@ -86,13 +86,14 @@ public class FinancialTransactionDAO extends ABaseDAO {
         sql += "ORDER BY id ASC";
 
         try(PreparedStatement pStmt = connection.prepareStatement(sql)) {
-            pStmt.setShort(1, Constants.cStatusActive);
+            int i = 0;
+            pStmt.setShort(++i, Constants.cStatusActive);
             if ((dtIni != null) && (dtFin != null)) {
-                pStmt.setDate(2, dtIni);
-                pStmt.setDate(3, dtFin);
+                pStmt.setDate(++i, dtIni);
+                pStmt.setDate(++i, dtFin);
             }
             if (vehicleId > 0)
-                pStmt.setInt(4, vehicleId);
+                pStmt.setInt(++i, vehicleId);
             pStmt.execute();
 
             try(ResultSet rSet = pStmt.getResultSet()) {
