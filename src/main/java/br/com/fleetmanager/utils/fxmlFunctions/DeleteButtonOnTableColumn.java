@@ -33,7 +33,7 @@ public class DeleteButtonOnTableColumn<T> {
                                 objectDAO.Delete(((ABaseModel) object).getId());
                                 getTableView().getItems().remove(object);
                             } catch (SQLException throwables) {
-                                throwables.printStackTrace();
+                                throw new RuntimeException(throwables);
                             }
                         });
                     }
