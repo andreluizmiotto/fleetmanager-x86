@@ -238,8 +238,8 @@ public class MainController implements Initializable, IControllerBase {
     }
 
     @Override
-    public void StorePreferences() {}
+    public void storePreferences() {}
 
     @Override
-    public void LoadPreferences() {}
+    public void loadPreferences() {}
 }

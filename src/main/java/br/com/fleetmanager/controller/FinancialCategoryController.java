@@ -131,9 +131,9 @@ public class FinancialCategoryController implements Initializable, IControllerIn
     }
 
     @Override
-    public void StorePreferences() {}
+    public void storePreferences() {}
 
     @Override
-    public void LoadPreferences() {}
+    public void loadPreferences() {}
 
 }

@@ -153,8 +153,8 @@ public class VehicleController implements Initializable, IControllerInputFields 
     }
 
     @Override
-    public void StorePreferences() {}
+    public void storePreferences() {}
 
     @Override
-    public void LoadPreferences() {}
+    public void loadPreferences() {}
 }

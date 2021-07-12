@@ -27,9 +27,8 @@ public class WindowHandler {
 
         FXMLLoader loader = getLoader(FXMLEnum.getFXMLFile(pFXML));
         pStage.setScene(getScene(loader.load()));
-        pStage.setOnHidden(e -> ((IControllerBase) loader.getController()).StorePreferences());
+        pStage.setOnHidden(e -> ((IControllerBase) loader.getController()).storePreferences());
         pStage.show();
-
     }
 
     private static Scene getScene(Parent pParent) {
