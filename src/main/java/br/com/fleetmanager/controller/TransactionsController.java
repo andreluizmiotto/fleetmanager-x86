@@ -156,7 +156,7 @@ public class TransactionsController implements Initializable, IControllerInputFi
         transactionDAO = new FinancialTransactionDAO(new ConnectionFactory().getNewConnection());
 
         initializeComboBox();
-        LoadPreferences();
+        loadPreferences();
 
         tfDescription.textProperty().addListener((observable, oldValue, newValue) -> {
             if (Functions.isNotNull(newValue) && ((newValue.length() > 99)))
@@ -216,6 +216,8 @@ public class TransactionsController implements Initializable, IControllerInputFi
 
         dtFinalDate.valueProperty().addListener((observable, oldDate, newDate)-> listTransactions());
 
+        ckbListTransactionsFromSelectedVehicle.setOnAction(event -> listTransactions());
+
         tfSumIncome.setStyle("-fx-text-inner-color: darkgreen;");
         tfSumExpenses.setStyle("-fx-text-inner-color: firebrick;");
 
@@ -258,6 +260,10 @@ public class TransactionsController implements Initializable, IControllerInputFi
         try(Connection connection = new ConnectionFactory().getNewConnection()) {
             new AutoCompleteCombobox<>(cbVehicle, FXCollections.observableArrayList(
                     new VehicleDAO(connection).ListAll()));
+            cbVehicle.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if ((oldValue != null) || (newValue != null))
+                    listTransactions();
+            });
             new AutoCompleteCombobox<>(cbCategory, FXCollections.observableArrayList(
                     new FinancialCategoryDAO(connection).ListAll()));
         } catch (SQLException throwables) {
@@ -298,7 +304,7 @@ public class TransactionsController implements Initializable, IControllerInputFi
     }
 
     @Override
-    public void StorePreferences() {
+    public void storePreferences() {
         new IniFileWIni(Constants.sPreferencesFile)
                 .put(this.getClass().getSimpleName(),
                      this.ckbListTransactionsFromSelectedVehicle.getId(),
@@ -307,7 +313,7 @@ public class TransactionsController implements Initializable, IControllerInputFi
     }
 
     @Override
-    public void LoadPreferences() {
+    public void loadPreferences() {
         boolean isSelected = new IniFileWIni(Constants.sPreferencesFile)
                 .getIniFile()
                 .get(this.getClass().getSimpleName(),
